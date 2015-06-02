@@ -39,7 +39,7 @@ return [
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => 'America/sao_paulo',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => 'pt-BR',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -145,6 +145,10 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
+        'Illuminate\Html\HtmlServiceProvider',
+        'Barryvdh\DomPDF\ServiceProvider',
+        'Artesaos\Defender\Providers\DefenderServiceProvider',
+
 	],
 
 	/*
@@ -192,6 +196,12 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+
+        'Html'      =>  'Illuminate\Html\HtmlFacade',
+        'Form'      =>  'Illuminate\Html\FormFacade',
+        'PDF'       =>  'Barryvdh\DomPDF\Facade',
+        'Defender'  =>  'Artesaos\Defender\Facades\Defender',
+
 
 	],
 

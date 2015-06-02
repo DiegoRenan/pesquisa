@@ -1,1 +1,3 @@
 laravel.log
+/storage/edital/*
+/storage/document/*

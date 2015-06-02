@@ -1,5 +1,6 @@
 <?php namespace App\Http\Middleware;
 
+use Artesaos\Defender\Facades\Defender;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +36,16 @@ class RedirectIfAuthenticated {
 	{
 		if ($this->auth->check())
 		{
-			return new RedirectResponse(url('/home'));
+            if(Defender::hasRole('admin'))
+                return new RedirectResponse(url('/admin/'));
+
+            if(Defender::hasRole('editor'))
+                return new RedirectResponse(url('/admin/'));
+
+            if(Defender::hasRole('coordenador'))
+                return new RedirectResponse(url('/admin/'));
+
+            return new RedirectResponse(url('/home'));
 		}
 
 		return $next($request);
