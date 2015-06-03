@@ -70,19 +70,19 @@ Route::group(['prefix' => 'blog', 'namespace' => 'Blog', ], function(){
 
     Route::pattern('id', '[0-9]+');
 
-    Route::get('/',                      ['as'   =>  'blog.index',       'uses'  =>  'BlogController@index']);
+    Route::get('/',                      ['as'   =>  'blog.index',     'uses'  =>  'BlogController@index']);
 
-    Route::get('/news',                  ['as'   =>  'blog.newses',      'uses'  =>  'BlogController@newses']);
+    Route::get('/news',                  ['as'   =>  'blog.newses',    'uses'  =>  'BlogController@newses']);
     Route::get('/news/{id}',             ['as'   =>  'blog.news',      'uses'  =>  'BlogController@news']);
 
-    Route::get('/document',              ['as'   =>  'blog.documents',   'uses'  =>  'BlogController@documents']);
+    Route::get('/document',              ['as'   =>  'blog.documents',  'uses'  =>  'BlogController@documents']);
     Route::get('/document/{id}',         ['as'   =>  'blog.document',   'uses'  =>  'BlogController@document']);
 
-    Route::get('/edital',                ['as'   =>  'blog.editals',     'uses'  =>  'BlogController@editals']);
+    Route::get('/edital',                ['as'   =>  'blog.editals',    'uses'  =>  'BlogController@editals']);
     Route::get('/edital/{id}',           ['as'   =>  'blog.edital',     'uses'  =>  'BlogController@edital']);
 
-    Route::get('/event',                ['as'   =>  'blog.events',     'uses'  =>  'BlogController@events']);
-    Route::get('/event/{id}',           ['as'   =>  'blog.event',     'uses'  =>  'BlogController@event']);
+    Route::get('/event',                 ['as'   =>  'blog.events',    'uses'  =>  'BlogController@events']);
+    Route::get('/event/{id}',            ['as'   =>  'blog.event',     'uses'  =>  'BlogController@event']);
 
 });
 

@@ -17,7 +17,7 @@ class BlogController extends Controller {
         $today = Carbon::now()->format('Y-m-d H:i:s');
         $qt = 10;
 
-        $newses = News::where('publicated_at', '<', $today)->take($qt)->get();
+        $newses = News::where('publicated_at', '<=', $today)->orderBy('publicated_at', 'desc')->take($qt)->get();
 
         $docs = Document::orderBy('created_at', 'desc')->paginate($qt);
 
@@ -37,7 +37,7 @@ class BlogController extends Controller {
     {
         $today = Carbon::now()->format('Y-m-d H:i:s');
 
-        $newses = News::where('publicated_at', '<', $today)->paginate(10);
+        $newses = News::where('publicated_at', '<=', $today)->orderBy('publicated_at', 'desc')->paginate(2);
 
         return view('blog.news.newses', compact('newses'));
     }
@@ -88,8 +88,8 @@ class BlogController extends Controller {
 
     public function events()
     {
-        $events = Evento::orderBy('start', 'desc')->paginate(10);
-
+        $today = Carbon::now()->format('Y-m-d');
+        $events = Evento::where('start', '>', $today)->orderBy('start', 'desc')->paginate(10);
         return view('blog.event.events', compact('events'));
     }
 

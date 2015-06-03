@@ -1,48 +1,56 @@
 @extends('app')
 @section('content')
-    <div class="row">
-        @if(count($newses))
-            @foreach($newses as $news)
-                <div style="margin-left: 10%; margin-right: 10%;">
+    @if(count($newses))
+        <div class="row">
+            <div class="col-lg-9">
+                @foreach($newses as $news)
+                    <!-- Blog Post Content Column -->
                     <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-1">
-                                    <h1 class="blog-post-title">
-                                        <span class="glyphicon glyphicon-bullhorn"></span>
-                                    </h1>
-                                </div>
-                                <div class="col-sm-11 text-center">
-                                    <h1>
-                                        {{ $news->title }}
-                                    </h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <p class="blog-post-meta">Data de Publicação: {{ $news->publicated_at->format('d/m/Y') }}</p>
-                        </div>
-                    </div>
+                        <!-- Title -->
+                        <h1>{{ $news->title }}</h1>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <p class="blog-post-meta">Fonte: <a href="{{ $news->url}}">{{ $news->source }}</a></p>
-                        </div>
-                    </div>
+                        <hr>
 
+                        <p><span class="glyphicon glyphicon-link"></span> Fonte: <a href="{{ $news->url }}">{{ $news->source }}</a></p>
+                        <p><span class="glyphicon glyphicon-time"></span> Publicado em {{ $news->publicated_at->format('d M, Y') }}. Por {{ $news->user->name }}</p>
+
+                        <hr>
+
+                        <!-- Post Content -->
+                        {!! $news->content !!}
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="col-md-3">
+                {{--<div class="well">
+                    <h4>Arquivo</h4>
                     <div class="row">
-                        <div class="col-sm-12">
-                            {!! $news->content !!}
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#">Janeiro</a></li>
+                                <li><a href="#">Feveiro</a></li>
+                                <li><a href="#">Março</a></li>
+                                <li><a href="#">Abril</a></li>
+                                <li><a href="#">Maio</a></li>
+                                <li><a href="#">Junho</a></li>
+                                <li><a href="#">Julho</a></li>
+                                <li><a href="#">Agosto</a></li>
+                                <li><a href="#">Setembro</a></li>
+                                <li><a href="#">Outubro</a></li>
+                                <li><a href="#">Novembre</a></li>
+                                <li><a href="#">Dezembro</a></li>
+                            </ul>
                         </div>
                     </div>
-                    <hr/>
-                </div>
-            @endforeach
-        @else
-            <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> <strong>Não há notícias cadastradas!</strong></div>
-        @endif
-    </div>
+                </div>--}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {!! $newses->render() !!}
+            </div>
+        </div>
+    @endif
 @endsection
+@stop
