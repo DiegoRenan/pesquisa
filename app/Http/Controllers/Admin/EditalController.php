@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\News\Publicacao;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class EditalController extends Controller {
      */
     public function index()
     {
-        $editals = Edital::orderBy('started_at', 'desc')->paginate(5);
+        $editals = Publicacao::orderBy('created_at', 'desc')->where('flag_tipo', 'like', 'ED')->paginate(15);
         return view('admin.edital.index', compact('editals'));
     }
 
@@ -39,10 +40,11 @@ class EditalController extends Controller {
      */
     public function store(EditalCreateRequest $request)
     {
-        $input = $request->all();
-        $input['started_at'] = $request->started_at.' 00:00:00';
-        $input['finished_at'] = $request->finished_at.' 00:00:00';
-        $input['user_id'] = Auth::user()->id;
+       // $input = $request->all();
+        $request['started_at'] = $request->started_at.' 00:00:00';
+        $request['finished_at'] = $request->finished_at.' 00:00:00';
+        $request['flag_tipo'] = 'ED';
+        $request['user_id'] = Auth::user()->id;
 
         if ($request->hasFile('file') && $request->file('file')->isValid())
         {
@@ -52,11 +54,21 @@ class EditalController extends Controller {
                 $fileName = str_random(15).'.'.$request->file('file')->getClientOriginalExtension();
                 $request->file('file')->move($destinationPath, $fileName);
 
+                $pub = Publicacao::create($request->all());
+
+                $input['publicacao_id'] = $pub->id;
+                $input['started_at'] = $request['started_at'];
+                $input['finished_at'] = $request['finished_at'];
                 $input['file'] = $fileName;
 
-                Edital::create($input);
+                $edital = Edital::create($input);
 
-                return redirect(route('edital.index'));
+                $pub->edital()->save($edital);
+
+                return redirect(route('edital.index'))->with([
+                    'flash_type_message' => 'alert-success',
+                    'flash_message' => 'Informações cadastradas com sucesso!'
+                ]);
             }
         }
         return redirect(route('edital.create'))->withInput();
@@ -69,10 +81,8 @@ class EditalController extends Controller {
      */
     public function edit($id)
     {
-        $edital = Edital::find($id);
+        $edital = Publicacao::findOrFail($id);
 
-        if(is_null($edital))
-            abort(404);
 
         return view('admin.edital.edit', compact('edital'));
     }
@@ -85,10 +95,7 @@ class EditalController extends Controller {
      */
     public function update($id, EditalUpdateRequest $request)
     {
-        $edital = Edital::find($id);
-
-        if(is_null($edital))
-            abort(404);
+        $pub = Publicacao::findOrFail($id);
 
         if($request->hasFile('file'))
         {
@@ -96,45 +103,42 @@ class EditalController extends Controller {
             {
                 if(in_array($request->file('file')->getClientOriginalExtension(), ['pdf', 'doc', 'docx', 'odt']))
                 {
-                    File::delete($edital->file);
+                    File::delete($pub->edital->file);
 
                     $destinationPath = storage_path().'/edital/';
                     $fileName = str_random(15).'.'.$request->file('file')->getClientOriginalExtension();
                     $request->file('file')->move($destinationPath, $fileName);
 
-                    $input = $request->all();
+                    $pub->update($request->all());
+
+                    $input['started_at'] = $request['started_at'];
+                    $input['finished_at'] = $request['finished_at'];
                     $input['file'] = $fileName;
 
-                    unset($input['_token']);
-                    unset($input['_method']);
+                    $pub->edital->update($input);
 
-                    $input['started_at'].=' 00:00:00';
-                    $input['finished_at'].=' 00:00:00';
-
-                    $edital->update($input);
-
-                    return redirect(route('edital.index'));
+                    return redirect(route('edital.index'))->with([
+                        'flash_type_message' => 'alert-success',
+                        'flash_message' => 'Informações atualizadas com sucesso!'
+                    ]);
                 }
                 else
                 {
-                    return redirect(route('edital.edit', $edital->id))->withInput();
+                    return redirect(route('edital.edit', $pub->id))->withInput();
                 }
             }
             else
             {
-                return redirect(route('edital.edit', $edital->id))->withInput();
+                return redirect(route('edital.edit', $pub->id))->withInput();
             }
         }
 
-        $input = $request->all();
+        $pub->update($request->all());
 
-        unset($input['_token']);
-        unset($input['_method']);
+        $input['started_at'] = $request['started_at'];
+        $input['finished_at'] = $request['finished_at'];
 
-        $input['started_at'].=' 00:00:00';
-        $input['finished_at'].=' 00:00:00';
-
-        $edital->update($input);
+        $pub->edital->update($input);
 
         return redirect(route('edital.index'));
     }
@@ -146,10 +150,7 @@ class EditalController extends Controller {
      */
     public function show($id)
     {
-        $edital = Edital::find($id);
-
-        if(is_null($edital))
-            abort(404);
+        $edital = Publicacao::findOrFail($id);
 
         return view('admin.edital.show', compact('edital'));
     }
@@ -161,25 +162,23 @@ class EditalController extends Controller {
      */
     public function delete($id)
     {
-        $edital = Edital::find($id);
+        $pub = Publicacao::findOrFail($id);
 
-        if(is_null($edital))
-            abort(404);
+        File::delete($pub->edital->file);
 
-        File::delete($edital->file);
-        $edital->delete();
+        $pub->delete();
 
-        return redirect(route('edital.index'));
+        return redirect(route('edital.index'))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Informações removidas com sucesso!'
+        ]);
     }
 
     public function download($id)
     {
-        $edital = Edital::find($id);
+        $pub = Publicacao::findOrFail($id);
 
-        if(is_null($edital))
-            abort(404);
-
-        $file = storage_path('edital').'/'.$edital->file;
+        $file = storage_path('edital').'/'.$pub->edital->file;
 
         return response()->download($file);
     }

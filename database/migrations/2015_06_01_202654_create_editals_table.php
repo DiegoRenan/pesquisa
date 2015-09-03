@@ -14,22 +14,12 @@ class CreateEditalsTable extends Migration {
 	{
 		Schema::create('editals', function(Blueprint $table)
 		{
-			$table->increments('id');
-            $table->string('title', 200);
-            $table->string('source', 255)->nullable();
-            $table->string('url',255)->nullable();
-            $table->longText('text');
+            $table->integer('publicacao_id')->unsigned();
             $table->timestamp('started_at');
             $table->timestamp('finished_at');
             $table->string('file',255);
-            $table->integer('user_id')->unsigned();
-            $table->timestamps();
-            $table->softDeletes();
 
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('restrict');
+            $table->foreign('publicacao_id')->references('id')->on('publicacaos')->onDelete('cascade');
 		});
 	}
 

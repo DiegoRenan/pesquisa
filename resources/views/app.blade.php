@@ -4,29 +4,31 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>CoPeq - CUA - UFMT</title>
 
-    <!-- Scripts -->
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <title>CoPeq - UFMT</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link href="{{ asset('/assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <!-- Editor -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
-    <link href="{{ asset('/css/summernote.css') }}" rel="stylesheet">
-    <script src="{{ asset('/js/summernote.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('textarea').summernote({height: 300});
-        });
-    </script>
+    <link href="{{ asset('/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('/assets/css/custom.css') }}" rel="stylesheet">
+
+   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+
+    <link href="{{ asset('/assets/css/summernote.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('/assets/css/timeline.css') }}" rel="stylesheet">
 
 </head>
 <body>
-	<nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+
+
+<div class="masthead">
+    {{--<div class="container head text-right">
+        <h1>CoPeQ - CUA</h1>
+        <h5>Comissão Científico-tecnológica do Campus Universitário do Araguaia</h5>
+    </div>--}}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -58,11 +60,18 @@
 			</div>
 		</div>
 	</nav>
+</div>
 
-    <div class="container" style="padding-top: 60pt">
+    <div class="container principal">
         @include('errors.list')
         @yield('content')
     </div>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
+    <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script src="{{ asset('/assets/js/summernote.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/ng-infinite-scroll.js') }}"></script>
+    <script src="{{ asset('/assets/js/custom.js') }}"></script>
 </body>
 </html>

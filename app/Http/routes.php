@@ -13,7 +13,7 @@
 
 Route::get('/', 'WelcomeController@index');
 
-Route::get('home', 'HomeController@index');
+Route::get('home', 'WelcomeController@index');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'editor'], 'any' => true], function()
 {
@@ -60,9 +60,96 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::put('/event/{id}/',         ['as'   =>  'event.update',    'uses'  =>  'EventController@update']);
     Route::delete('/event/{id}/',      ['as'   =>  'event.delete',    'uses'  =>  'EventController@delete']);
 
-    /* Users Controller */
-    Route::get('/users',                ['as'   =>  'users.list',       'uses'  =>  'UserController@users']);
+    Route::resource('pesquisador','PesquisadorController');
 
+    Route::group(['prefix' => 'stuff'], function() {
+
+        /* Index Stuff */
+        Route::get('/', ['as' => 'admin.stuff.index', function(){
+            return view('admin.stuff.index');
+        }]);
+
+        /* Usuários Controller */
+        Route::resource('users', 'UserController');
+
+        /* Categorias usuários Controller */
+        Route::resource('roles', 'RolesController');
+
+        /* Titulação Controller */
+        Route::resource('titles', 'TitlesController');
+
+        /* Categorias pesquisador Controller */
+        Route::resource('categories', 'CategoriesController');
+
+        /* Regime Trabalh0 Controller */
+        Route::resource('works', 'WorksController');
+
+        /* Campus Controller */
+        Route::resource('campus', 'CampusController');
+
+        /* Institutos Controller */
+        Route::resource('institutes', 'InstitutesController');
+
+        /* Departamentos Controller */
+        Route::resource('departments', 'DepartmentsController');
+
+        /* Áreas CNPQ Controller */
+        Route::resource('areacnpq', 'AreasCnpqController');
+
+        /* Sub-Áreas CNPQ Controller */
+        Route::resource('subareacnpq', 'SubAreasCnpqController');
+    });
+
+
+});
+
+Route::group(['prefix' => 'researcher', 'namespace' => 'Research'], function()
+{
+    Route::pattern('id', '[0-9]+');
+
+    /* Verificar pesquisador */
+    Route::get('/verify', ['as' => 'researcher.researcher.getVerify', 'uses' => 'ResearcherController@getVerify']);
+
+    /* Verificar pesquisador */
+    Route::post('/verify', ['as' => 'researcher.researcher.verify', 'uses' => 'ResearcherController@verify']);
+
+    /* Cadastrar pesquisador */
+    Route::get('/create', ['as' => 'researcher.researcher.create', 'uses' => 'ResearcherController@create']);
+
+    /* Salvar pesquisador */
+    Route::post('/', ['as' => 'researcher.researcher.store', 'uses' => 'ResearcherController@store']);
+
+//    /* Pesquisador */
+//    Route::resource('researcher', 'ResearcherController');
+
+    Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['pesquisador']], function()
+    {
+
+        /* Dashboard */
+        Route::get('/', ['as'   =>  'researcher.dashboard',  'uses'  =>  'DashboardController@index']);
+
+        /* Editar pesquisador */
+        Route::get('/{researcher}/edit', ['as' => 'researcher.researcher.edit', 'uses' => 'ResearcherController@edit']);
+
+         /* Alterar pesquisador */
+        Route::put('/{researcher}', ['as' => 'researcher.researcher.update', 'uses' => 'ResearcherController@update']);
+
+        /* Editar Senhas pesquisador */
+        Route::get('/password', ['as' => 'researcher.password.edit', 'uses' => 'ResearcherController@editPassword']);
+
+        /* Alterar Senhas pesquisador */
+        Route::put('/password', ['as' => 'researcher.password.update', 'uses' => 'ResearcherController@updatePassword']);
+
+        /* Grupo de Pesquisa */
+        Route::resource('grupopesquisa', 'GrupoPesquisaController');
+
+    });
+
+    /* encontrar institutos */
+    Route::get('/{id}/institutes', ['as' => 'researcher.institutes', 'uses' => 'ResearcherController@getInstitutes']);
+
+    /* encontrar departamentos */
+    Route::get('/{id}/departments', ['as' => 'researcher.departments', 'uses' => 'ResearcherController@getDepartments']);
 });
 
 /*Guest route*/

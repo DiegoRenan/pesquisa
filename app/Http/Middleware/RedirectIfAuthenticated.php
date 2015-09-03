@@ -45,6 +45,9 @@ class RedirectIfAuthenticated {
             if(Defender::hasRole('coordenador'))
                 return new RedirectResponse(url('/admin/'));
 
+            if(Defender::hasRole('pesquisador'))
+                return new RedirectResponse(url('/researcher/'));
+
             return new RedirectResponse(url('/home'));
 		}
 

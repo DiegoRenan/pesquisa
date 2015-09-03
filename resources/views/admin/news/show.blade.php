@@ -20,7 +20,7 @@
         <hr/>
         <div class="row">
             <div class="col-sm-12">
-                <p class="blog-post-meta">Data de Publicação: {{ $news->publicated_at->format('d/m/Y') }}</p>
+                <p class="blog-post-meta">Data de Publicação: {{ $news->news->publicated_at->format('d/m/Y') }}</p>
             </div>
         </div>
 

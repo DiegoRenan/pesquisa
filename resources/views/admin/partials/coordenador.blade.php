@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="{{ url('admin/pesquisador/') }}">
                 <div class="panel-footer">
                     Entrar
                     <span class="glyphicon glyphicon-circle-arrow-right"></span>

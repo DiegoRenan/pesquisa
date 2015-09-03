@@ -1,8 +1,12 @@
 @extends('app')
 @section('content')
     <div class="row">
-        @include('blog.partials._content')
+        <div class="col-sm-9">
+            @include('blog.partials._timeline')
+        </div>
 
-        @include('blog.partials._sidebar')
+        <div class="col-sm-3">
+            @include('blog.partials._sidebar')
+        </div>
     </div>
 @endsection

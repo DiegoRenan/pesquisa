@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <a href="#">
+        <a href="{{ url('admin/stuff/') }}">
             <div class="panel-footer">
                 Entrar
                 <span class="glyphicon glyphicon-circle-arrow-right"></span>

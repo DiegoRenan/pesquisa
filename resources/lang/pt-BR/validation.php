@@ -61,7 +61,7 @@ return [
     "required_if"      => "É obrigatória a indicação de um valor para o campo :attribute quando o valor do campo :other é igual a :value.",
     "required_with"    => "É obrigatória a indicação de um valor para o campo :attribute quando :values está presente.",
     "required_with_all" => "É obrigatória a indicação de um valor para o campo :attribute quando um dos :values está presente.",
-    "required_without" => "É obrigatória a indicação de um valor para o campo :attribute quanto :values não está presente.",
+    "required_without" => "É obrigatória a indicação de um valor para o campo :attribute quando :values não está presente.",
     "required_without_all" => "É obrigatória a indicação de um valor para o campo :attribute quando nenhum dos :values está presente.",
     "same"             => "Os campos :attribute e :other deverão conter valores iguais.",
     "size"             => [
@@ -113,9 +113,14 @@ return [
         'started_at'    =>  'data de início',
         'finished_at'   =>  'data de fechamento',
         'file'          =>  'arquivo',
-        'start'         =>  'data início',
-        'end'         =>  'data fim',
-        'place'         =>  'local'
+        'start'         =>  'Data início',
+        'end'           =>  'Data fim',
+        'place'         =>  'Local',
+        'instituto_id'  =>   'Instituto',
+        'departamento_id'   =>  'Departamento',
+        'titulacao_id'   => 'Titulação',
+        'categoria_id'      => 'Categoria',
+        'regime_trabalho_id'    => 'Regime de Trabalho'
     ],
 
 ];

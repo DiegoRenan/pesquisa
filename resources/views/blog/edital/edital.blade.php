@@ -28,10 +28,10 @@
 
         <div class="row">
             <div class="col-sm-3">
-                <p class="blog-post-meta">Data de Início: {{ $edital->started_at->format('d/m/Y') }}</p>
+                <p class="blog-post-meta">Data de Início: {{ $edital->edital->started_at->format('d/m/Y') }}</p>
             </div>
             <div class="col-sm-6">
-                <p class="blog-post-meta">Data de Fechamento: {{ $edital->finished_at->format('d/m/Y') }}</p>
+                <p class="blog-post-meta">Data de Fechamento: {{ $edital->edital->finished_at->format('d/m/Y') }}</p>
             </div>
         </div>
 

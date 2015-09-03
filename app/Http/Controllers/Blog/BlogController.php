@@ -7,8 +7,10 @@ use App\News\Document;
 use App\News\Edital;
 use App\News\Evento;
 use App\News\News;
+use App\News\Publicacao;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller {
 
@@ -17,71 +19,61 @@ class BlogController extends Controller {
         $today = Carbon::now()->format('Y-m-d H:i:s');
         $qt = 10;
 
-        $newses = News::where('publicated_at', '<=', $today)->orderBy('publicated_at', 'desc')->take($qt)->get();
+        $content = Publicacao::orderBy('created_at', 'desc')->paginate($qt);
 
-        $docs = Document::orderBy('created_at', 'desc')->paginate($qt);
-
-        $editals = Edital::orderBy('started_at', 'desc')->paginate($qt);
-
-        $events = Evento::orderBy('start', 'desc')->paginate($qt);
-
-        return view('blog.index')->with([
-            'newses' => $newses,
-            'docs' => $docs,
-            'editals' => $editals,
-            'events' => $events
-        ]);
+        return view('blog.index', compact('content'));
     }
 
     public function newses()
     {
-        $today = Carbon::now()->format('Y-m-d H:i:s');
+        $today = Carbon::now();
 
         $newses = News::where('publicated_at', '<=', $today)->orderBy('publicated_at', 'desc')->paginate(2);
+
+        $newses->load('Publicacao');
 
         return view('blog.news.newses', compact('newses'));
     }
 
     public function news($id)
     {
-        $news = News::find($id);
-
+        $news = Publicacao::find($id);
         if(is_null($news))
             abort(404);
+
+        $news->load('News');
 
         return view('blog.news.news', compact('news'));
     }
 
     public function documents()
     {
-        $documents = Document::orderBy('created_at', 'desc')->paginate(10);
+        $documents = Publicacao::where('flag_tipo', 'like', 'DC')->orderBy('created_at', 'desc')->paginate(10);
+
+        $documents->load('Documento');
 
         return view('blog.document.docs', compact('documents'));
     }
 
     public function document($id)
     {
-        $doc = Document::find($id);
-
-        if(is_null($doc))
-            abort(404);
+        $doc = Publicacao::findOrFail($id);
 
         return view('blog.document.doc', compact('doc'));
     }
 
     public function editals()
     {
-        $editals = Edital::orderBy('created_at', 'desc')->paginate(10);
+        $editals = Publicacao::where('flag_tipo', 'like', 'ED')->orderBy('created_at', 'desc')->paginate(10);
+
+        $editals->load("Edital");
 
         return view('blog.edital.editals', compact('editals'));
     }
 
     public function edital($id)
     {
-        $edital = Edital::find($id);
-
-        if(is_null($edital))
-            abort(404);
+        $edital = Publicacao::findOrFail($id);
 
         return view('blog.edital.edital', compact('edital'));
     }
@@ -90,15 +82,15 @@ class BlogController extends Controller {
     {
         $today = Carbon::now()->format('Y-m-d');
         $events = Evento::where('start', '>', $today)->orderBy('start', 'desc')->paginate(10);
+        $events->load("Publicacao");
         return view('blog.event.events', compact('events'));
     }
 
     public function event($id)
     {
-        $event = Evento::find($id);
+        $event = Publicacao::findOrFail($id);
 
-        if(is_null($event))
-            abort(404);
+        $event->load("Publicacao");
 
         return view('blog.event.event', compact('event'));
     }

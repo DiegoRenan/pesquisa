@@ -7,13 +7,14 @@
                     <!-- Blog Post Content Column -->
                     <div class="row">
                         <!-- Title -->
-                        <h1>{{ $news->title }}</h1>
+                        <h1>{{ $news->publicacao->title }}</h1>
 
                         <hr>
 
-                        <p><span class="glyphicon glyphicon-link"></span> Fonte: <a href="{{ $news->url }}">{{ $news->source }}</a></p>
-                        <p><span class="glyphicon glyphicon-time"></span> Publicado em {{ $news->publicated_at->format('d M, Y') }}. Por {{ $news->user->name }}</p>
+                        <p><span class="glyphicon glyphicon-link"></span> Fonte: <a href="{{ $news->publicacao->url }}">{{ $news->publicacao->source }}</a></p>
+                        <p><span class="glyphicon glyphicon-time"></span> Publicado em {{ $news->publicated_at->format('d M, Y') }}. Por {{ $news->publicacao->user->name }}</p>
 
+                        <p>{!! $news->publicacao->content !!}</p>
                         <hr>
 
                         <!-- Post Content -->

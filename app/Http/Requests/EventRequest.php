@@ -26,7 +26,7 @@ class EventRequest extends Request {
             'start'     =>  'required|date|before:end',
             'end'       =>  'required|date|after:start',
             'place'     =>  'required|min:3|max:200',
-            'text'      =>  'required|min:3'
+            'content'      =>  'required|min:3'
 		];
 	}
 

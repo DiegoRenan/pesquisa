@@ -12,7 +12,7 @@
 </div>
 <div class="form-group">
     {!! Form::label('publicated_at', 'Data de publicação:') !!}
-    {!! Form::input('date', 'publicated_at', date('Y-m-d'), ['class'=>'form-control', 'required']) !!}
+    {!! Form::input('date', 'publicated_at', null, ['class'=>'form-control', 'required']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('content', 'Conteúdo:') !!}

@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-12">
             @if(count($events))
-                <div class="panel panel-default">
+                <div class="panel panel-success">
                     <div class="panel-heading">
                         <h3 class="panel-title"><span class="glyphicon glyphicon-list"></span> Eventos</h3>
                     </div>
@@ -25,7 +25,7 @@
                                         {{ $event->title }}
                                     </td>
                                     <td>
-                                        {{ $event->start->format('d/m/Y') }}
+                                        {{ $event->evento->start->format("d/m/Y") }}
                                     </td>
                                     <td>
                                         <a class="btn btn-primary" href="{{ route('event.show', $event->id) }}" title="Visualizar evento: {{ $event->title }}"><span class="glyphicon glyphicon-eye-open"></span></a>

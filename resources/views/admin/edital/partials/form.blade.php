@@ -12,19 +12,19 @@
 </div>
 <div class="form-group">
     {!! Form::label('started_at', 'Data de inicio:') !!}
-    {!! Form::input('date', 'started_at', date('d/m/Y'), ['class'=>'form-control', '']) !!}
+    {!! Form::input('date', 'started_at', null, ['class'=>'form-control', '']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('finished_at', 'Data de fechamento:') !!}
-    {!! Form::input('date', 'finished_at', date('d/m/Y'), ['class'=>'form-control', '']) !!}
+    {!! Form::input('date', 'finished_at', null, ['class'=>'form-control', '']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('file', 'Arquivo:') !!}
     {!! Form::file('file', null, ['class'=>'form-control', '']) !!}
 </div>
 <div class="form-group">
-    {!! Form::label('text', 'Conteúdo:') !!}
-    {!! Form::textarea('text', null, ['class' => 'form-control']) !!}
+    {!! Form::label('content', 'Conteúdo:') !!}
+    {!! Form::textarea('content', null, ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
     <div class="row">

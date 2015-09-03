@@ -25,7 +25,7 @@ class EditalUpdateRequest extends Request {
             'title'        =>  'required|min:3|max:200',
             'source'       =>  'max:200',
             'url'          =>  'url|active_url|max:255',
-            'text'         =>  'required|min:10',
+            'content'         =>  'required|min:10',
             'started_at'   =>  'required|date|before:finished_at',
             'finished_at'  =>  'required|date|after:started_at'
         ];;

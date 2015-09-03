@@ -4,14 +4,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Evento extends Model {
 
-	//
+	public $timestamps = false;
+
     protected $fillable = [
-        'title',
+        'publicacao_id',
         'start',
         'end',
         'hour',
         'place',
-        'text',
         'alltime'
     ];
 
@@ -19,4 +19,9 @@ class Evento extends Model {
         'start',
         'end'
     ];
+
+    public function publicacao()
+    {
+        return $this->belongsTo('App\News\Publicacao');
+    }
 }

@@ -5,15 +5,17 @@ use App\Http\Controllers\Controller;
 
 use App\News\News;
 use App\Http\Requests\NewsCreateRequest;
+use App\News\Publicacao;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller {
 
 	//
     public function index()
     {
-        $news = News::orderBy('publicated_at', 'desc')->paginate(5);
+        $news = Publicacao::orderBy('created_at', 'desc')->where('flag_tipo', 'like', 'NW')->paginate(15);
         return view('admin.news.index', compact('news'));
     }
 
@@ -24,61 +26,58 @@ class NewsController extends Controller {
 
     public function store(NewsCreateRequest $request)
     {
-        $input = $request->all();
-        $input['publicated_at'] = $request->publicated_at.' 00:00:00';
-        $input['user_id'] = Auth::user()->id;
+        $request['flag_tipo'] = 'NW';
+        $request['user_id'] = Auth::user()->id;
 
-        $news = News::create($input);
+        $pub = Publicacao::create($request->all());
 
-        return redirect(route('news.index'));
+        $news = new News(['publicated_at' => $request['publicated_at']]);
+
+        $pub->news()->save($news);
+
+        return redirect(route('news.index'))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Informações cadastradas com sucesso!'
+        ]);
     }
 
     public function edit($id)
     {
-        $news = News::find($id);
-
-        if(is_null($news))
-            abort(404);
+        $news = Publicacao::findOrFail($id);
 
         return view('admin.news.edit', compact('news'));
     }
 
     public function update($id, NewsCreateRequest $request)
     {
-        $news = News::find($id);
+        $pub = Publicacao::findOrFail($id);
 
-        if(is_null($news))
-            abort(404);
+        $pub->update($request->all());
 
-        $news->title = $request->title;
-        $news->source = $request->source;
-        $news->url = $request->url;
-        $news->content = $request->content;
-        $news->publicated_at = $request->publicated_at.' 00:00:00';
-        $news->save();
+        $pub->news()->update(['publicated_at' => $request['publicated_at']]);
 
-        return redirect(route('news.index'));
+        return redirect(route('news.index'))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Informações atualizadas com sucesso!'
+        ]);
     }
 
     public function show($id)
     {
-        $news = News::find($id);
-
-        if(is_null($news))
-            abort(404);
+        $news = Publicacao::findOrFail($id);
 
         return view('admin.news.show', compact('news'));
     }
 
     public function delete($id)
     {
-        $news = News::find($id);
+        $pub = Publicacao::findOrFail($id);
 
-        if(is_null($news))
-            abort(404);
+        $pub->delete();
 
-        $news->delete();
-
-        return redirect(route('news.index'));
+        return redirect(route('news.index'))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Informações removidas com sucesso!'
+        ]);
     }
 }

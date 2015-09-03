@@ -10,10 +10,11 @@
                         <h1>{{ $edital->title }}</h1>
 
                         <hr>
-
+                        <p><span class="glyphicon glyphicon-time"></span> Publicado por: {{ $edital->present()->createdCompleto }}.</p>
+                        <p><span class="glyphicon glyphicon-time"></span> Data inicial: {{ $edital->edital->present()->startedAt }}.</p>
+                        <p><span class="glyphicon glyphicon-time"></span> Data final: {{ $edital->edital->present()->finishedAt }}.</p>
                         <p><span class="glyphicon glyphicon-link"></span> Fonte: <a href="{{ $edital->url }}">{{ $edital->source }}</a></p>
-                        <p><span class="glyphicon glyphicon-time"></span> Publicado em {{ $edital->started_at->format('d M, Y') }}.</p>
-                        <p><span class="glyphicon glyphicon-link"></span> <a href="{{ url('edital.download', $edital->id) }}">Download <span class="glyphicon glyphicon-file"></span></a></p>
+                        <p><span class="glyphicon glyphicon-link"></span> <a href="{{ route('edital.download', $edital->id) }}">Download <span class="glyphicon glyphicon-file"></span></a></p>
 
                         <!-- Post Content -->
                         {!! $edital->text !!}

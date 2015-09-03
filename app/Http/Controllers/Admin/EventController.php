@@ -4,9 +4,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\News\Evento;
+use App\News\Publicacao;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\EventRequest;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller {
 
@@ -17,7 +19,8 @@ class EventController extends Controller {
 	 */
 	public function index()
 	{
-        $events = Evento::orderBy('created_at', 'desc')->paginate(5);
+        $events = Publicacao::orderBy('created_at', 'desc')->where('flag_tipo', 'like', 'EV')->paginate(15);
+
 		return view('admin.event.index', compact('events'));
 	}
 
@@ -38,17 +41,25 @@ class EventController extends Controller {
 	 */
 	public function store(EventRequest $request)
 	{
-        $input = $request->all();
+        $request['flag_tipo'] = 'EV';
+        $request['user_id'] = Auth::user()->id;
 
         if(!$request->has('alltime'))
-            $input['alltime'] = false;
+            $request['alltime'] = false;
 
         if(!$request->has('hour'))
-            $input['hour'] = null;
+            $request['hour'] = null;
 
-        Evento::create($input);
+        $pub = Publicacao::create($request->all());
 
-        return redirect(route('event.index'));
+        $evento = new Evento($request->all());
+
+        $pub->evento()->save($evento);
+
+        return redirect(route('event.index'))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Informações cadastradas com sucesso!'
+        ]);
 	}
 
 	/**
@@ -59,10 +70,12 @@ class EventController extends Controller {
 	 */
 	public function show($id)
 	{
-        $event = Evento::find($id);
+        $event = Publicacao::find($id);
 
         if(is_null($event))
             abort(404);
+
+        $event->load('Evento');
 
         return view('admin.event.show', compact('event'));
 	}
@@ -75,10 +88,12 @@ class EventController extends Controller {
 	 */
 	public function edit($id)
 	{
-        $event = Evento::find($id);
+        $event = Publicacao::find($id);
 
         if(is_null($event))
             abort(404);
+
+        $event->load('Evento');
 
         return view('admin.event.edit', compact('event'));
 	}
@@ -91,7 +106,7 @@ class EventController extends Controller {
 	 */
 	public function update($id, EventRequest $request)
 	{
-        $event = Evento::find($id);
+        $event = Publicacao::find($id);
 
         if(is_null($event))
             abort(404);
@@ -100,7 +115,10 @@ class EventController extends Controller {
 
         $event->update($input);
 
-        return redirect(route('event.index'));
+        return redirect(route('event.index'))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Informações atualizadas com sucesso!'
+        ]);
 	}
 
 	/**
@@ -111,14 +129,19 @@ class EventController extends Controller {
 	 */
 	public function delete($id)
 	{
-        $event = Evento::find($id);
+        $event = Publicacao::find($id);
 
         if(is_null($event))
             abort(404);
 
+        $event->load('Evento');
+
         $event->delete();
 
-        return redirect(route('event.index'));
+        return redirect(route('event.index'))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Informações removidas com sucesso!'
+        ]);
 	}
 
 }

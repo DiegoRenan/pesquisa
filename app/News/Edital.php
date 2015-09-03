@@ -1,37 +1,30 @@
 <?php namespace App\News;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Edital extends Model {
 
-    use SoftDeletes;
+    use PresentableTrait;
+
+    protected $presenter = 'App\Presenters\EditalPresenter';
+
+    public $timestamps = false;
 
     protected $fillable = [
-        'title',
-        'source',
-        'url',
-        'text',
         'started_at',
         'finished_at',
         'file',
-        'user_id'
+        'publicacao_id'
     ];
 
     protected $dates = [
-        'created_at',
-        'updated_at',
         'started_at',
         'finished_at'
     ];
 
-    protected $guarded = [
-        'id'
-    ];
-
-    public function user()
+    public function publicacao()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\News\Publicacao');
     }
-
 }

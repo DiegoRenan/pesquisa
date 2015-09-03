@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\News\Publicacao;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -19,7 +20,7 @@ class DocumentController extends Controller {
      */
     public function index()
     {
-        $docs = Document::orderBy('created_at', 'desc')->paginate(5);
+        $docs = Publicacao::orderBy('created_at', 'desc')->where('flag_tipo', 'like', 'DC')->paginate(15);
         return view('admin.document.index', compact('docs'));
     }
 
@@ -39,8 +40,8 @@ class DocumentController extends Controller {
      */
     public function store(DocumentCreateRequest $request)
     {
-        $input = $request->all();
-        $input['user_id'] = Auth::user()->id;
+        $request['flag_tipo'] = 'DC';
+        $request['user_id'] = Auth::user()->id;
 
         if ($request->hasFile('file') && $request->file('file')->isValid())
         {
@@ -50,11 +51,19 @@ class DocumentController extends Controller {
                 $fileName = str_random(15).'.'.$request->file('file')->getClientOriginalExtension();
                 $request->file('file')->move($destinationPath, $fileName);
 
+                $pub = Publicacao::create($request->all());
+
+                $input['publicacao_id'] = $pub->id;
                 $input['file'] = $fileName;
 
-                Document::create($input);
+                $doc = Document::create($input);
 
-                return redirect(route('document.index'));
+                $pub->documento()->save($doc);
+
+                return redirect(route('document.index'))->with([
+                    'flash_type_message' => 'alert-success',
+                    'flash_message' => 'Informações cadastradas com sucesso!'
+                ]);
             }
         }
         return redirect(route('document.create'))->withInput();
@@ -67,10 +76,7 @@ class DocumentController extends Controller {
      */
     public function edit($id)
     {
-        $doc = Document::find($id);
-
-        if(is_null($doc))
-            abort(404);
+        $doc = Publicacao::findOrFail($id);
 
         return view('admin.document.edit', compact('doc'));
     }
@@ -83,10 +89,7 @@ class DocumentController extends Controller {
      */
     public function update($id, DocumentUpdateRequest $request)
     {
-        $doc = Document::find($id);
-
-        if(is_null($doc))
-            abort(404);
+        $pub = Publicacao::findOrFail($id);
 
         if($request->hasFile('file'))
         {
@@ -94,39 +97,35 @@ class DocumentController extends Controller {
             {
                 if(in_array($request->file('file')->getClientOriginalExtension(), ['pdf', 'doc', 'docx', 'odt']))
                 {
-                    File::delete($doc->file);
+                    File::delete($pub->doc->file);
 
                     $destinationPath = storage_path().'/document/';
                     $fileName = str_random(15).'.'.$request->file('file')->getClientOriginalExtension();
                     $request->file('file')->move($destinationPath, $fileName);
 
-                    $input = $request->all();
                     $input['file'] = $fileName;
 
-                    unset($input['_token']);
-                    unset($input['_method']);
+                    $pub->update($request->all());
 
-                    $doc->update($input);
+                    $pub->documento->update($input);
 
-                    return redirect(route('document.index'));
+                    return redirect(route('document.index'))->with([
+                        'flash_type_message' => 'alert-success',
+                        'flash_message' => 'Informações atualizadas com sucesso!'
+                    ]);
                 }
                 else
                 {
-                    return redirect(route('document.edit', $doc->id))->withInput();
+                    return redirect(route('document.edit', $pub->id))->withInput();
                 }
             }
             else
             {
-                return redirect(route('document.edit', $doc->id))->withInput();
+                return redirect(route('document.edit', $pub->id))->withInput();
             }
         }
 
-        $input = $request->all();
-
-        unset($input['_token']);
-        unset($input['_method']);
-
-        $doc->update($input);
+        $pub->update($request->all());
 
         return redirect(route('document.index'));
     }
@@ -138,10 +137,7 @@ class DocumentController extends Controller {
      */
     public function show($id)
     {
-        $doc = Document::find($id);
-
-        if(is_null($doc))
-            abort(404);
+        $doc = Publicacao::findOrFail($id);
 
         return view('admin.document.show', compact('doc'));
     }
@@ -153,25 +149,22 @@ class DocumentController extends Controller {
      */
     public function delete($id)
     {
-        $doc = Document::find($id);
+        $pub = Publicacao::findOrFail($id);
 
-        if(is_null($doc))
-            abort(404);
+        File::delete($pub->documento->file);
+        $pub->delete();
 
-        File::delete($doc->file);
-        $doc->delete();
-
-        return redirect(route('document.index'));
+        return redirect(route('document.index'))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Informações removidas com sucesso!'
+        ]);
     }
 
     public function download($id)
     {
-        $doc = Document::find($id);
+        $pub = Publicacao::findOrFail($id);
 
-        if(is_null($doc))
-            abort(404);
-
-        $file = storage_path('document').'/'.$doc->file;
+        $file = storage_path('document').'/'.$pub->documento->file;
 
         return response()->download($file);
     }

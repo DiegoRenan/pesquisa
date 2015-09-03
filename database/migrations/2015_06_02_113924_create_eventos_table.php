@@ -14,19 +14,19 @@ class CreateEventosTable extends Migration {
 	{
 		Schema::create('eventos', function(Blueprint $table)
 		{
-			$table->increments('id');
-            $table->string('title', 200);
+            $table->integer('publicacao_id')->unsigned();
+
             $table->date('start');
+
             $table->date('end');
-            $table->time('hour')
-                ->nullable();
+
+            $table->time('hour')->nullable();
+
             $table->string('place', 200);
-            $table->text('text');
-            $table->boolean('alltime')
-                ->nullable()
-                ->default(false);
-			$table->timestamps();
-            $table->softDeletes();
+
+            $table->boolean('alltime')->nullable()->default(false);
+
+            $table->foreign('publicacao_id')->references('id')->on('publicacaos')->onDelete('cascade');
 		});
 	}
 

@@ -13,7 +13,7 @@
 
                         <p><span class="glyphicon glyphicon-link"></span> Fonte: <a href="{{ $doc->url }}">{{ $doc->source }}</a></p>
                         <p><span class="glyphicon glyphicon-time"></span> Publicado em {{ $doc->created_at->format('d M, Y') }}.</p>
-                        <p><span class="glyphicon glyphicon-link"></span> <a href="{{ url('document.download', $doc->id) }}">Download <span class="glyphicon glyphicon-file"></span></a></p>
+                        <p><span class="glyphicon glyphicon-link"></span> <a href="{{ route('document.download', $doc->id) }}">Download <span class="glyphicon glyphicon-file"></span></a></p>
 
                         <!-- Post Content -->
                         {!! $doc->text !!}

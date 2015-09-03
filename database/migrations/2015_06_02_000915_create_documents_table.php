@@ -14,18 +14,12 @@ class CreateDocumentsTable extends Migration {
 	{
 		Schema::create('documents', function(Blueprint $table)
 		{
-			$table->increments('id');
-            $table->string('title', 200);
-            $table->longText('text');
-            $table->string('file',255);
-            $table->integer('user_id')->unsigned();
-            $table->timestamps();
-            $table->softDeletes();
+            $table->integer('publicacao_id')->unsigned();
 
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('restrict');
+            $table->string('file',255);
+
+
+            $table->foreign('publicacao_id')->references('id')->on('publicacaos')->onDelete('cascade');
 		});
 	}
 

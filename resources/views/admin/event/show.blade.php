@@ -20,19 +20,19 @@
         <hr/>
         <div class="row">
             <div class="col-sm-12">
-                <p class="blog-post-meta"><strong>Data Início:</strong> {{ $event->start->format('d/m/Y') }}</p>
+                <p class="blog-post-meta"><strong>Data Início:</strong> {{ $event->evento->start->format('d/m/Y') }}</p>
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-12">
-                <p class="blog-post-meta"><strong>Data Final:</strong> {{ $event->end->format('d/m/Y') }}</p>
+                <p class="blog-post-meta"><strong>Data Final:</strong> {{ $event->evento->end->format('d/m/Y') }}</p>
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-12">
-                <p class="blog-post-meta"><strong>Hora:</strong> {{ ($event->alltime)? 'Tempo Integral' : $event->hour }}</p>
+                <p class="blog-post-meta"><strong>Hora:</strong> {{ ($event->evento->alltime)? 'Tempo Integral' : $event->evento->hour }}</p>
             </div>
         </div>
 

@@ -1,15 +1,19 @@
 @extends('app')
 @section('content')
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title"><span class="glyphicon glyphicon-dashboard"></span> Painel de Controle</h3>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-dashboard"></span> Painel de Controle</h3>
+                </div>
+            </div>
         </div>
         <div class="panel-body">
-            @is(['editor', 'admin'])
+            @is('admin')
                 @include('admin.partials.editor')
             @endis
 
-            @is(['coordenador', 'admin'])
+            @is('admin')
                 @include('admin.partials.coordenador')
             @endis
 

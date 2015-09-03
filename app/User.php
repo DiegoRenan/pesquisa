@@ -35,7 +35,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function news()
     {
-        return $this->hasMany('App\News\News');
+        return $this->hasMany('App\News\Publicacao');
+    }
+
+    public function roleName()
+    {
+        return $this->roles()->first()->name;
+    }
+
+    public function roleId()
+    {
+        return $this->roles()->first()->id;
     }
 
 }

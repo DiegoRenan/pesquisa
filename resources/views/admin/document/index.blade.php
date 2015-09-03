@@ -1,9 +1,10 @@
 @extends('app')
 @section('content')
+    @include('admin.partials.remover')
     <div class="row">
         <div class="col-sm-12">
             @if(count($docs))
-            <div class="panel panel-default">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title"><span class="glyphicon glyphicon-list"></span> Documentos</h3>
                 </div>
@@ -41,7 +42,9 @@
                                 </td>
                                 <td>
                                     {!! Form::open(['method' => 'delete', 'route' => ['document.delete', $doc->id]]) !!}
-                                    <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#removerModal" data-title="Remover Documentos" data-message="Você tem certeza que quer remover este item?">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
                                     {!! Form::close() !!}
                                 </td>
                             </tr>

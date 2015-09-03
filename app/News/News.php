@@ -1,35 +1,22 @@
 <?php namespace App\News;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class News extends Model {
 
-    use SoftDeletes;
+    public $timestamps = false;
 
     protected $fillable = [
-        'title',
-        'source',
-        'url',
-        'content',
-        'publicated_at',
-        'user_id'
-    ];
-
-    protected $dates = [
-        'created_at',
-        'updated_at',
+        'publicacao_id',
         'publicated_at'
     ];
 
-    protected $guarded = [
-        'id'
+    protected $dates = [
+        'publicated_at'
     ];
 
-    public function user()
+    public function publicacao()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\News\Publicacao');
     }
-
 }

@@ -23,7 +23,7 @@ class DocumentUpdateRequest extends Request {
 	{
         return [
             'title'        =>  'required|min:3|max:200',
-            'text'         =>  'required|min:10',
+            'content'         =>  'required|min:10',
         ];
 	}
 

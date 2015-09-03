@@ -14,20 +14,11 @@ class CreateNewsTable extends Migration {
 	{
 		Schema::create('news', function(Blueprint $table)
 		{
-			$table->increments('id');
-            $table->string('title', 200);
-            $table->string('source', 255)->nullable();
-            $table->string('url',255)->nullable();
-            $table->longText('content');
-            $table->timestamp('publicated_at');
-            $table->integer('user_id')->unsigned();
-			$table->timestamps();
-            $table->softDeletes();
+            $table->integer('publicacao_id')->unsigned();
 
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('restrict');
+            $table->timestamp('publicated_at');
+
+            $table->foreign('publicacao_id')->references('id')->on('publicacaos')->onDelete('cascade');
 		});
 	}
 

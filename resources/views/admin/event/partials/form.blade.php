@@ -33,8 +33,8 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('text', 'Conteúdo:') !!}
-    {!! Form::textarea('text', null, ['class' => 'form-control']) !!}
+    {!! Form::label('content', 'Conteúdo:') !!}
+    {!! Form::textarea('content', null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group">

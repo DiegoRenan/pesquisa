@@ -5,27 +5,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Document extends Model {
 
-    use SoftDeletes;
+    public $timestamps = false;
 
     protected $fillable = [
-        'title',
-        'text',
+        'publicacao_id',
         'file',
-        'user_id'
     ];
 
-    protected $dates = [
-        'created_at',
-        'updated_at',
-    ];
-
-    protected $guarded = [
-        'id'
-    ];
-
-    public function user()
+    public function publicacao()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\News\Publicacao');
     }
-
 }
