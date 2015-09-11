@@ -56,6 +56,6 @@ class PublicacaoPresenter extends BasePresenter
         elseif($this->flag_tipo == 'DC')
             return route('blog.document', $this->id);
         elseif($this->flag_tipo == 'EV')
-            return route('blog.document', $this->id);
+            return route('blog.event', $this->id);
     }
 }

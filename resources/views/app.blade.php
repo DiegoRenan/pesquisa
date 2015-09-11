@@ -69,8 +69,8 @@
 
     <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
     <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
     <script src="{{ asset('/assets/js/summernote.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
     <script src="{{ asset('/assets/js/ng-infinite-scroll.js') }}"></script>
     <script src="{{ asset('/assets/js/custom.js') }}"></script>
 </body>

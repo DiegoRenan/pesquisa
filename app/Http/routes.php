@@ -171,6 +171,8 @@ Route::group(['prefix' => 'blog', 'namespace' => 'Blog', ], function(){
     Route::get('/event',                 ['as'   =>  'blog.events',    'uses'  =>  'BlogController@events']);
     Route::get('/event/{id}',            ['as'   =>  'blog.event',     'uses'  =>  'BlogController@event']);
 
+    Route::get('/api/feed', ['as'   =>  'api.getPub',     'uses'  =>  'BlogController@getPub']);
+
 });
 
 Route::controllers([

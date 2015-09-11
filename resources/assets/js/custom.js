@@ -3,29 +3,32 @@ $(document).ready(function() {
 
     var campus = $('#campus_id').val();
 
-    $.get("/researcher/"+campus+"/institutes",
-        function (data) {
-            var instituto = $('#instituto_id');
-            instituto.empty();
+    if(typeof campus != 'undefined')
+    {
+        $.get("/researcher/"+campus+"/institutes",
+            function (data) {
+                var instituto = $('#instituto_id');
+                instituto.empty();
 
-            $("#instituto_id").append('<option value="" selected>Selecione o seu Instituto</a>');
-            for ($i = 0; $i < data.length; $i++) {
-                $('#instituto_id').append('<option value="' + data[$i].id + '">' + data[$i].name + '</a>');
+                $("#instituto_id").append('<option value="" selected>Selecione o seu Instituto</a>');
+                for ($i = 0; $i < data.length; $i++) {
+                    $('#instituto_id').append('<option value="' + data[$i].id + '">' + data[$i].name + '</a>');
+                }
             }
-        }
-    );
+        );
 
-    $.get("/researcher/"+campus+"/departments",
-        function (data) {
-            var departamento = $('#departamento_id');
-            departamento.empty();
+        $.get("/researcher/"+campus+"/departments",
+            function (data) {
+                var departamento = $('#departamento_id');
+                departamento.empty();
 
-            $("#departamento_id").append('<option value="" selected>Selecione o seu Departamento</a>');
-            for ($i = 0; $i < data.length; $i++) {
-                $('#departamento_id').append('<option value="' + data[$i].id + '">' + data[$i].name + '</a>');
+                $("#departamento_id").append('<option value="" selected>Selecione o seu Departamento</a>');
+                for ($i = 0; $i < data.length; $i++) {
+                    $('#departamento_id').append('<option value="' + data[$i].id + '">' + data[$i].name + '</a>');
+                }
             }
-        }
-    );
+        );
+    }
 });
 
 $('#removerModal').on('show.bs.modal', function (e) {
@@ -72,3 +75,42 @@ $("#campus_id").change(function(){
         }
     );
 });
+
+/*Loader infinito -----------------------------------------------------------------------------------------------------*/
+(function(){
+
+    var myapp = angular.module('myapp', ['infinite-scroll']);
+
+    myapp.controller('ContentController', function($scope, Contents) {
+
+        $scope.contents = new Contents();
+    });
+
+    myapp.factory('Contents', function($http) {
+
+        var Contents = function(){
+            this.items = [];
+            this.busy = false;
+            this.page = 1;
+        };
+
+        Contents.prototype.nextPage = function() {
+            var url = 'blog/api/feed?page='+this.page;
+
+            if(this.busy) return;
+
+            this.busy = true;
+
+            $http.get(url).success(function(data){
+                $('ul#items').append(data);
+                this.page++;
+                this.busy = false;
+            }.bind(this));
+        };
+
+        return Contents;
+    });
+
+}).call(this);
+
+/*---------------------------------------------------------------------------------------------------------------------*/

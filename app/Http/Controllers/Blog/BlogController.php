@@ -24,6 +24,16 @@ class BlogController extends Controller {
         return view('blog.index', compact('content'));
     }
 
+    public function getPub()
+    {
+        $today = Carbon::now()->format('Y-m-d H:i:s');
+        $qt = 10;
+
+        $content = Publicacao::orderBy('created_at', 'desc')->paginate($qt);
+
+        return view('blog.partials._timeline', compact('content'));
+    }
+
     public function newses()
     {
         $today = Carbon::now();
