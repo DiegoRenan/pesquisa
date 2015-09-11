@@ -9,11 +9,11 @@
             </div>
         </div>
         <div class="panel-body">
-            @is('admin')
+            @is(['admin', 'editor'])
                 @include('admin.partials.editor')
             @endis
 
-            @is('admin')
+            @is(['admin', 'coordenador'])
                 @include('admin.partials.coordenador')
             @endis
 

@@ -15,54 +15,66 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'WelcomeController@index');
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'editor'], 'any' => true], function()
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function()
 {
     Route::pattern('id', '[0-9]+');
 
-    /* Dashboard */
-    Route::get('/',                     ['as'   =>  'admin.index',      'uses'  =>  'DashboardController@index']);
+    /*
+    * Routes for dashboard
+    * Access for Admins, Editors and Coordenadors
+    */
+    Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'editor', 'coordenador'], 'any' => true], function() {
 
-    /* News Controller*/
-    Route::get('/news/',                ['as'   =>  'news.index',       'uses'  =>  'NewsController@index']);
-    Route::get('/news/create',          ['as'   =>  'news.create',      'uses'  =>  'NewsController@create']);
-    Route::post('/news/',               ['as'   =>  'news.store',       'uses'  =>  'NewsController@store']);
-    Route::get('/news/{id}/edit',       ['as'   =>  'news.edit',        'uses'  =>  'NewsController@edit']);
-    Route::get('/news/{id}/show',       ['as'   =>  'news.show',        'uses'  =>  'NewsController@show']);
-    Route::put('/news/{id}/',           ['as'   =>  'news.update',      'uses'  =>  'NewsController@update']);
-    Route::delete('/news/{id}/',        ['as'   =>  'news.delete',      'uses'  =>  'NewsController@delete']);
+        /* Dashboard */
+        Route::get('/',                     ['as'   =>  'admin.index',      'uses'  =>  'DashboardController@index']);
 
-    /* Edital Controller*/
-    Route::get('/edital/',              ['as'   =>  'edital.index',     'uses'  =>  'EditalController@index']);
-    Route::get('/edital/create',        ['as'   =>  'edital.create',    'uses'  =>  'EditalController@create']);
-    Route::post('/edital/',             ['as'   =>  'edital.store',     'uses'  =>  'EditalController@store']);
-    Route::get('/edital/{id}/edit',     ['as'   =>  'edital.edit',      'uses'  =>  'EditalController@edit']);
-    Route::get('/edital/{id}/show',     ['as'   =>  'edital.show',      'uses'  =>  'EditalController@show']);
-    Route::put('/edital/{id}/',         ['as'   =>  'edital.update',    'uses'  =>  'EditalController@update']);
-    Route::delete('/edital/{id}/',      ['as'   =>  'edital.delete',    'uses'  =>  'EditalController@delete']);
-    Route::get('/edital/{id}/download', ['as'   =>  'edital.download',  'uses'  =>  'EditalController@download']);
+        /* News Controller*/
+        Route::get('/news/',                ['as'   =>  'news.index',       'uses'  =>  'NewsController@index']);
+        Route::get('/news/create',          ['as'   =>  'news.create',      'uses'  =>  'NewsController@create']);
+        Route::post('/news/',               ['as'   =>  'news.store',       'uses'  =>  'NewsController@store']);
+        Route::get('/news/{id}/edit',       ['as'   =>  'news.edit',        'uses'  =>  'NewsController@edit']);
+        Route::get('/news/{id}/show',       ['as'   =>  'news.show',        'uses'  =>  'NewsController@show']);
+        Route::put('/news/{id}/',           ['as'   =>  'news.update',      'uses'  =>  'NewsController@update']);
+        Route::delete('/news/{id}/',        ['as'   =>  'news.delete',      'uses'  =>  'NewsController@delete']);
 
-    /* Document Controller*/
-    Route::get('/document/',              ['as'   =>  'document.index',     'uses'  =>  'DocumentController@index']);
-    Route::get('/document/create',        ['as'   =>  'document.create',    'uses'  =>  'DocumentController@create']);
-    Route::post('/document/',             ['as'   =>  'document.store',     'uses'  =>  'DocumentController@store']);
-    Route::get('/document/{id}/edit',     ['as'   =>  'document.edit',      'uses'  =>  'DocumentController@edit']);
-    Route::get('/document/{id}/show',     ['as'   =>  'document.show',      'uses'  =>  'DocumentController@show']);
-    Route::put('/document/{id}/',         ['as'   =>  'document.update',    'uses'  =>  'DocumentController@update']);
-    Route::delete('/document/{id}/',      ['as'   =>  'document.delete',    'uses'  =>  'DocumentController@delete']);
-    Route::get('/document/{id}/download', ['as'   =>  'document.download',  'uses'  =>  'DocumentController@download']);
+        /* Edital Controller*/
+        Route::get('/edital/',              ['as'   =>  'edital.index',     'uses'  =>  'EditalController@index']);
+        Route::get('/edital/create',        ['as'   =>  'edital.create',    'uses'  =>  'EditalController@create']);
+        Route::post('/edital/',             ['as'   =>  'edital.store',     'uses'  =>  'EditalController@store']);
+        Route::get('/edital/{id}/edit',     ['as'   =>  'edital.edit',      'uses'  =>  'EditalController@edit']);
+        Route::get('/edital/{id}/show',     ['as'   =>  'edital.show',      'uses'  =>  'EditalController@show']);
+        Route::put('/edital/{id}/',         ['as'   =>  'edital.update',    'uses'  =>  'EditalController@update']);
+        Route::delete('/edital/{id}/',      ['as'   =>  'edital.delete',    'uses'  =>  'EditalController@delete']);
+        Route::get('/edital/{id}/download', ['as'   =>  'edital.download',  'uses'  =>  'EditalController@download']);
 
-    /* Event Controller*/
-    Route::get('/event/',              ['as'   =>  'event.index',     'uses'  =>  'EventController@index']);
-    Route::get('/event/create',        ['as'   =>  'event.create',    'uses'  =>  'EventController@create']);
-    Route::post('/event/',             ['as'   =>  'event.store',     'uses'  =>  'EventController@store']);
-    Route::get('/event/{id}/edit',     ['as'   =>  'event.edit',      'uses'  =>  'EventController@edit']);
-    Route::get('/event/{id}/show',     ['as'   =>  'event.show',      'uses'  =>  'EventController@show']);
-    Route::put('/event/{id}/',         ['as'   =>  'event.update',    'uses'  =>  'EventController@update']);
-    Route::delete('/event/{id}/',      ['as'   =>  'event.delete',    'uses'  =>  'EventController@delete']);
+        /* Document Controller*/
+        Route::get('/document/',              ['as'   =>  'document.index',     'uses'  =>  'DocumentController@index']);
+        Route::get('/document/create',        ['as'   =>  'document.create',    'uses'  =>  'DocumentController@create']);
+        Route::post('/document/',             ['as'   =>  'document.store',     'uses'  =>  'DocumentController@store']);
+        Route::get('/document/{id}/edit',     ['as'   =>  'document.edit',      'uses'  =>  'DocumentController@edit']);
+        Route::get('/document/{id}/show',     ['as'   =>  'document.show',      'uses'  =>  'DocumentController@show']);
+        Route::put('/document/{id}/',         ['as'   =>  'document.update',    'uses'  =>  'DocumentController@update']);
+        Route::delete('/document/{id}/',      ['as'   =>  'document.delete',    'uses'  =>  'DocumentController@delete']);
+        Route::get('/document/{id}/download', ['as'   =>  'document.download',  'uses'  =>  'DocumentController@download']);
 
-    Route::resource('pesquisador','PesquisadorController');
+        /* Event Controller*/
+        Route::get('/event/',              ['as'   =>  'event.index',     'uses'  =>  'EventController@index']);
+        Route::get('/event/create',        ['as'   =>  'event.create',    'uses'  =>  'EventController@create']);
+        Route::post('/event/',             ['as'   =>  'event.store',     'uses'  =>  'EventController@store']);
+        Route::get('/event/{id}/edit',     ['as'   =>  'event.edit',      'uses'  =>  'EventController@edit']);
+        Route::get('/event/{id}/show',     ['as'   =>  'event.show',      'uses'  =>  'EventController@show']);
+        Route::put('/event/{id}/',         ['as'   =>  'event.update',    'uses'  =>  'EventController@update']);
+        Route::delete('/event/{id}/',      ['as'   =>  'event.delete',    'uses'  =>  'EventController@delete']);
 
-    Route::group(['prefix' => 'stuff'], function() {
+        Route::resource('pesquisador','PesquisadorController');
+
+    });
+
+    /*
+     * Routes for admin stuff
+     * Access only for admins
+     */
+    Route::group(['prefix' => 'stuff', 'middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function() {
 
         /* Index Stuff */
         Route::get('/', ['as' => 'admin.stuff.index', function(){
@@ -100,27 +112,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
         Route::resource('subareacnpq', 'SubAreasCnpqController');
     });
 
-
 });
 
+/*  */
 Route::group(['prefix' => 'researcher', 'namespace' => 'Research'], function()
 {
     Route::pattern('id', '[0-9]+');
-
-    /* Verificar pesquisador */
-    Route::get('/verify', ['as' => 'researcher.researcher.getVerify', 'uses' => 'ResearcherController@getVerify']);
-
-    /* Verificar pesquisador */
-    Route::post('/verify', ['as' => 'researcher.researcher.verify', 'uses' => 'ResearcherController@verify']);
 
     /* Cadastrar pesquisador */
     Route::get('/create', ['as' => 'researcher.researcher.create', 'uses' => 'ResearcherController@create']);
 
     /* Salvar pesquisador */
     Route::post('/', ['as' => 'researcher.researcher.store', 'uses' => 'ResearcherController@store']);
-
-//    /* Pesquisador */
-//    Route::resource('researcher', 'ResearcherController');
 
     Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['pesquisador']], function()
     {
