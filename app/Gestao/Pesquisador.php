@@ -74,6 +74,11 @@ class Pesquisador extends Model {
         return $this->belongsToMany('App\Research\GrupoPesquisa');
     }
 
+    public function projeto()
+    {
+        return $this->hasMany('App\Gestao\Projeto');
+    }
+
     /**
      * @return bool|\Carbon\Carbon|\DateTimeZone|int|string
      */

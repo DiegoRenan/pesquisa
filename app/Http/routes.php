@@ -146,6 +146,13 @@ Route::group(['prefix' => 'researcher', 'namespace' => 'Research'], function()
         /* Grupo de Pesquisa */
         Route::resource('grupopesquisa', 'GrupoPesquisaController');
 
+
+        /* Projeto */
+        Route::group(['prefix' => 'projetc'], function()
+        {
+            Route::get('/create', ['as' => 'project.create', 'uses' => 'ProjectController@dadosPessoais']);
+        });
+
     });
 
     /* encontrar institutos */

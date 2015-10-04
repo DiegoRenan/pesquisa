@@ -6,7 +6,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-use Artesaos\Defender\HasDefenderTrait;
+use Artesaos\Defender\Traits\HasDefenderTrait;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 

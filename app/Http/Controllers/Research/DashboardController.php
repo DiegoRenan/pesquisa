@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\News\Publicacao;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -21,17 +22,10 @@ class DashboardController extends Controller {
 	public function index()
 	{
         $today = Carbon::now()->format('Y-m-d H:i:s');
-        $qt = 3;
+        $qt = 5;
 
-        $newses = News::where('publicated_at', '<=', $today)->orderBy('publicated_at', 'desc')->take($qt)->get();
-
-        $docs = Document::orderBy('created_at', 'desc')->paginate($qt);
-
-        $editals = Edital::orderBy('started_at', 'desc')->paginate($qt);
-
-        $events = Evento::orderBy('start', 'desc')->paginate($qt);
-
-        return view('research.dashboard', compact('newses', 'editals', 'docs', 'events'));
+        $content = Publicacao::orderBy('created_at', 'desc')->paginate($qt);
+        return view('research.dashboard', compact('content'));
 	}
 
 	/**
