@@ -1,50 +1,42 @@
 @extends('app')
 @section('content')
-    <div style="margin-left: 10%; margin-right: 10%;">
+    <div class="publicacao">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="row">
-                    <div class="col-sm-1">
-                        <h1 class="blog-post-title">
-                            <span class="glyphicon glyphicon-file"></span>
-                        </h1>
+            <div class="col-md-9">
+                <div class="row"><div class="col-sm-12"><h3>{{ $edital->title }}</h3></div></div>
+                <div class="publicacao-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p>
+                                <small>
+                                    <i class="glyphicon glyphicon-info-sign"></i> Publicado por {{ $edital->present()->publicadoCompleto }}
+                                    <i class="glyphicon glyphicon-link"></i> Fonte: <a href="{{ $edital->url}}">{{ $edital->source }}</a>
+                                </small>
+                            </p>
+                        </div>
                     </div>
-                    <div class="col-sm-11 text-center">
-                        <h1>
-                            {{ $edital->title }}
-                        </h1>
+                    <div class="row"><div class="col-sm-12"><p>{!! $edital->content !!}</p></div></div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <p class="blog-post-meta"><strong>Data de Início:</strong> {{ $edital->edital->started_at->format('d/m/Y') }}</p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="blog-post-meta"><strong>Data de Fechamento:</strong> {{ $edital->edital->finished_at->format('d/m/Y') }}</p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="blog-post-meta"><a href="{{  route('edital.download', $edital->id) }}"><span class="glyphicon glyphicon-download-alt"></span> Baixar Arquivo</a></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <a class="btn btn-default btn-xs" href="{{ URL::previous() }}">Voltar</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <hr/>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <p class="blog-post-meta">Data de Publicação: {{ $edital->created_at->format('d/m/Y') }}</p>
-                <p class="blog-post-meta">Fonte: <a href="{{ $edital->url}}">{{ $edital->source }}</a></p>
+            <div class="col-md-3">
+                @include('blog.partials._archive')
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-sm-3">
-                <p class="blog-post-meta">Data de Início: {{ $edital->edital->started_at->format('d/m/Y') }}</p>
-            </div>
-            <div class="col-sm-6">
-                <p class="blog-post-meta">Data de Fechamento: {{ $edital->edital->finished_at->format('d/m/Y') }}</p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <p class="blog-post-meta"><a href="{{  route('edital.download', $edital->id) }}">Download: <span class="glyphicon glyphicon-file"></span></a></p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                {!! $edital->text !!}
-            </div>
-        </div>
-    </div>
+    </div>        
 @endsection

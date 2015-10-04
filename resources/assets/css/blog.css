@@ -1,0 +1,28 @@
+body { padding-top: 10em; }
+
+.master-head { background-color: #fff; color: green; }
+
+.publicacao { }
+
+.publicacao-content { padding-left: 10px;}
+
+.publicacao a, h3 { color:green; }
+
+.publicacao > a:hover,
+.publicacao > a:focus {text-decoration: underline; }
+
+.archive  {
+    display: none;
+}
+@media (min-width: 768px) {
+    .archive {
+        position: relative;
+        width: 261px;
+        top: 24px;
+        bottom: 0;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}

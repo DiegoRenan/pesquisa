@@ -38,7 +38,7 @@ class BlogController extends Controller {
     {
         $today = Carbon::now();
 
-        $newses = News::where('publicated_at', '<=', $today)->orderBy('publicated_at', 'desc')->paginate(2);
+        $newses = News::where('publicated_at', '<=', $today)->orderBy('publicated_at', 'desc')->simplePaginate(5);
 
         $newses->load('Publicacao');
 
@@ -58,7 +58,7 @@ class BlogController extends Controller {
 
     public function documents()
     {
-        $documents = Publicacao::where('flag_tipo', 'like', 'DC')->orderBy('created_at', 'desc')->paginate(10);
+        $documents = Publicacao::where('flag_tipo', 'like', 'DC')->orderBy('created_at', 'desc')->simplePaginate(10);
 
         $documents->load('Documento');
 
@@ -74,7 +74,7 @@ class BlogController extends Controller {
 
     public function editals()
     {
-        $editals = Publicacao::where('flag_tipo', 'like', 'ED')->orderBy('created_at', 'desc')->paginate(10);
+        $editals = Publicacao::where('flag_tipo', 'like', 'ED')->orderBy('created_at', 'desc')->simplePaginate(10);
 
         $editals->load("Edital");
 

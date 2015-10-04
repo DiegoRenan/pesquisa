@@ -37,12 +37,12 @@ $('#removerModal').on('show.bs.modal', function (e) {
     $title = $(e.relatedTarget).attr('data-title');
     $(this).find('.modal-title').text($title);
 
-    // Pass form reference to modal for submission on yes/ok
+    /* Pass form reference to modal for submission on yes/ok */
     var form = $(e.relatedTarget).closest('form');
     $(this).find('.modal-footer #confirm').data('form', form);
 });
 
-<!-- Form confirm (yes/ok) handler, submits form -->
+/* Form confirm (yes/ok) handler, submits form */
 $('#removerModal').find('.modal-footer #confirm').on('click', function(){
     $(this).data('form').submit();
 });

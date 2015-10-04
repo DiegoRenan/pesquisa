@@ -1,55 +1,38 @@
 @extends('app')
 @section('content')
     @if(count($editals))
-        <div class="row">
-            <div class="col-lg-9">
-                @foreach($editals as $edital)
-                    <!-- Blog Post Content Column -->
-                    <div class="row">
-                        <!-- Title -->
-                        <h1>{{ $edital->title }}</h1>
-
-                        <hr>
-                        <p><span class="glyphicon glyphicon-time"></span> Publicado por: {{ $edital->present()->createdCompleto }}.</p>
-                        <p><span class="glyphicon glyphicon-time"></span> Data inicial: {{ $edital->edital->present()->startedAt }}.</p>
-                        <p><span class="glyphicon glyphicon-time"></span> Data final: {{ $edital->edital->present()->finishedAt }}.</p>
-                        <p><span class="glyphicon glyphicon-link"></span> Fonte: <a href="{{ $edital->url }}">{{ $edital->source }}</a></p>
-                        <p><span class="glyphicon glyphicon-link"></span> <a href="{{ route('edital.download', $edital->id) }}">Download <span class="glyphicon glyphicon-file"></span></a></p>
-
-                        <!-- Post Content -->
-                        {!! $edital->text !!}
-                        <hr/>
-                    </div>
-                @endforeach
-            </div>
-
-            <div class="col-md-3">
-                {{--<div class="well">
-                    <h4>Arquivo</h4>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Janeiro</a></li>
-                                <li><a href="#">Feveiro</a></li>
-                                <li><a href="#">Março</a></li>
-                                <li><a href="#">Abril</a></li>
-                                <li><a href="#">Maio</a></li>
-                                <li><a href="#">Junho</a></li>
-                                <li><a href="#">Julho</a></li>
-                                <li><a href="#">Agosto</a></li>
-                                <li><a href="#">Setembro</a></li>
-                                <li><a href="#">Outubro</a></li>
-                                <li><a href="#">Novembre</a></li>
-                                <li><a href="#">Dezembro</a></li>
-                            </ul>
+        <div class="publicacao">
+            <div class="row">
+                <div class="col-lg-9">
+                    @foreach($editals as $edital)
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="{{ $edital->present()->link }}"><h3>{{ strtoupper($edital->title) }}</h3></a>
+                                <div class="publicacao-content">
+                                    <p>
+                                        <small>
+                                            <span class="glyphicon glyphicon-info-sign"></span> Publicado por: {{ $edital->present()->publicadoCompleto }}.
+                                            <span class="glyphicon glyphicon-link"></span> Fonte: <a href="{{ $edital->url }}">{{ $edital->source }}</a>
+                                        </small>
+                                    </p>
+                                    <p>{!! $edital->content !!}</p>
+                                    <p><span class="glyphicon glyphicon-time"></span> Data inicial: {{ $edital->edital->present()->startedAt }}.</p>
+                                    <p><span class="glyphicon glyphicon-time"></span> Data final: {{ $edital->edital->present()->finishedAt }}.</p>
+                                    <p><span class="glyphicon glyphicon-link"></span> <a href="{{ route('edital.download', $edital->id) }}">Download <span class="glyphicon glyphicon-file"></span></a></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>--}}
+                    @endforeach
+                </div>
+
+                <div class="col-md-3">
+                    @include('blog.partials._archive')
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {!! $editals->render() !!}
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    {!! $editals->render() !!}
+                </div>
             </div>
         </div>
     @endif

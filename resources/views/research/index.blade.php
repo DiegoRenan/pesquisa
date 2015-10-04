@@ -7,28 +7,19 @@
 
     <title>CoPeq - UFMT</title>
 
-    <link href="{{ asset('/assets/css/bootstrap.min.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('/assets/css/custom.css') }}" rel="stylesheet">
-
+    <link href="{{ asset('/assets/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/dashboard.css') }}" rel="stylesheet">
-
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
-
-    <link href="{{ asset('/assets/css/summernote.css') }}" rel="stylesheet">
 
 </head>
 <body>
 
 
-<div class="masthead">
-    {{--<div class="container head text-right">
+<div class="navbar  navbar-fixed-top">
+    <div class="container text-right" style="background-color:white; color:#428bca;">
         <h1>CoPeQ - CUA</h1>
         <h5>Comissão Científico-tecnológica do Campus Universitário do Araguaia</h5>
-    </div>--}}
-    <nav class="navbar navbar-default navbar-fixed-top">
+    </div>
+    <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -66,10 +57,7 @@
     @yield('content')
 </div>
 
-
-<script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
-<script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('/assets/js/summernote.min.js') }}"></script>
+<script src="{{ asset('/assets/js/app.js') }}"></script>
 <script src="{{ asset('/assets/js/custom.js') }}"></script>
 </body>
 </html>

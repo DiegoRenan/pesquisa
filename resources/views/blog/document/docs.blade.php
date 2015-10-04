@@ -1,54 +1,35 @@
 @extends('app')
 @section('content')
     @if(count($documents))
-        <div class="row">
-            <div class="col-lg-9">
-                @foreach($documents as $doc)
-                    <!-- Blog Post Content Column -->
-                    <div class="row">
-                        <!-- Title -->
-                        <h1>{{ $doc->title }}</h1>
-
-                        <hr>
-
-                        <p><span class="glyphicon glyphicon-link"></span> Fonte: <a href="{{ $doc->url }}">{{ $doc->source }}</a></p>
-                        <p><span class="glyphicon glyphicon-time"></span> Publicado em {{ $doc->created_at->format('d M, Y') }}.</p>
-                        <p><span class="glyphicon glyphicon-link"></span> <a href="{{ route('document.download', $doc->id) }}">Download <span class="glyphicon glyphicon-file"></span></a></p>
-
-                        <!-- Post Content -->
-                        {!! $doc->text !!}
-                        <hr/>
-                    </div>
-                @endforeach
-            </div>
-
-            <div class="col-md-3">
-                {{--<div class="well">
-                    <h4>Arquivo</h4>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Janeiro</a></li>
-                                <li><a href="#">Feveiro</a></li>
-                                <li><a href="#">Março</a></li>
-                                <li><a href="#">Abril</a></li>
-                                <li><a href="#">Maio</a></li>
-                                <li><a href="#">Junho</a></li>
-                                <li><a href="#">Julho</a></li>
-                                <li><a href="#">Agosto</a></li>
-                                <li><a href="#">Setembro</a></li>
-                                <li><a href="#">Outubro</a></li>
-                                <li><a href="#">Novembre</a></li>
-                                <li><a href="#">Dezembro</a></li>
-                            </ul>
+        <div class="publicacao">
+            <div class="row">
+                <div class="col-sm-9">
+                    @foreach($documents as $doc)
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="{{ $doc->present()->link }}"><h3>{{ strtoupper($doc->title) }}</h3></a>
+                                <div class="publicacao-content">
+                                    <p>
+                                        <small>
+                                            <span class="glyphicon glyphicon-info-sign"></span> Publicado por: {{ $doc->present()->publicadoCompleto }}.
+                                            <span class="glyphicon glyphicon-link"></span> Fonte: <a href="{{ $doc->url }}">{{ $doc->source }}</a>
+                                        </small>
+                                    </p>
+                                    <p>{!! $doc->content !!}</p>
+                                    <p><span class="glyphicon glyphicon-link"></span> <a href="{{ route('document.download', $doc->id) }}">Download <span class="glyphicon glyphicon-file"></span></a></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>--}}
+                    @endforeach
+                </div>
+                <div class="col-sm-3">
+                    @include('blog.partials._archive')
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {!! $documents->render() !!}
+            <div class="row">
+                <div class="col-sm-12">
+                    {!! $documents->render() !!}
+                </div>
             </div>
         </div>
     @endif

@@ -1,40 +1,36 @@
 @extends('app')
 @section('content')
-    <div style="margin-left: 10%; margin-right: 10%;">
+    <div class="publicacao">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="row">
-                    <div class="col-sm-1">
-                        <h1 class="blog-post-title">
-                            <span class="glyphicon glyphicon-file"></span>
-                        </h1>
+            <div class="col-sm-9">
+                <div class="row"><div class="col-sm-12"><h3>{{ $doc->title }}</h3></div></div>
+                <div class="publicacao-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p>
+                                <small>
+                                    <i class="glyphicon glyphicon-info-sign"></i> Publicado por {{ $doc->present()->publicadoCompleto }}
+                                    <i class="glyphicon glyphicon-link"></i> Fonte: <a href="{{ $doc->url}}">{{ $doc->source }}</a>
+                                </small>
+                            </p>
+                        </div>
                     </div>
-                    <div class="col-sm-11 text-center">
-                        <h1>
-                            {{ $doc->title }}
-                        </h1>
+                    <div class="row"><div class="col-sm-12"><p>{!! $doc->content !!}</p></div></div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <p class="blog-post-meta"><a href="{{ route('document.download', $doc->id) }}"><span class="glyphicon glyphicon-download-alt"></span> Baixar Arquivo</a></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <a class="btn btn-default btn-xs" href="{{ URL::previous() }}">Voltar</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <hr/>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <p class="blog-post-meta">Data de Publicação: {{ $doc->created_at->format('d/m/Y') }}</p>
+            <div class="col-sm-3">
+                @include('blog.partials._archive')
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <p class="blog-post-meta"><a href="{{  route('document.download', $doc->id) }}">Download: <span class="glyphicon glyphicon-file"></span></a></p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                {!! $doc->text !!}
-            </div>
-        </div>
-    </div>
+    </div>        
 @endsection

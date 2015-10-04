@@ -1,8 +1,13 @@
 <?php namespace App\News;
 
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class News extends Model {
+
+    use PresentableTrait;
+
+    protected $presenter = 'App\Presenters\NewsPresenter';
 
     public $timestamps = false;
 

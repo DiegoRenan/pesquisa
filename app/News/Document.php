@@ -2,8 +2,13 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Document extends Model {
+
+    use PresentableTrait;
+
+    protected $presenter = 'App\Presenters\DocumentPresenter';
 
     public $timestamps = false;
 

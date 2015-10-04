@@ -22,7 +22,7 @@ class DashboardController extends Controller {
 	public function index()
 	{
         $today = Carbon::now()->format('Y-m-d H:i:s');
-        $qt = 5;
+        $qt = 10;
 
         $content = Publicacao::orderBy('created_at', 'desc')->paginate($qt);
         return view('research.dashboard', compact('content'));

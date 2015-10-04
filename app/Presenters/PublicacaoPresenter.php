@@ -22,9 +22,9 @@ class PublicacaoPresenter extends BasePresenter
      * @param int $size
      * @return string
      */
-    public function getContent($size = 100)
+    public function getSubContent($size = 100)
     {
-        return substr($this->content, $size);
+        return substr($this->content, 0, $size);
     }
 
     /**

@@ -1,4 +1,4 @@
-<div class="" id="sidebar">
+<!-- <div class="" id="sidebar">
     <legend>Pesquisa</legend>
     <div class="list-group">
         <a href="{{ route('researcher.researcher.create') }}" class="list-group-item">Cadastro de Pesquisador</a>
@@ -15,4 +15,4 @@
         <a class="list-group-item">ProPeq</a>
         <a class="list-group-item">Plataforma Lattes</a>
     </div>
-</div>
+</div> -->
