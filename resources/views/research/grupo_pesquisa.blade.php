@@ -95,7 +95,7 @@
 
                 <div class="row">
                     <div class="col-sm-11 text-right">
-                        <a href="{{ route('researcher.index') }}" class="btn btn-default"><strong>Voltar</strong></a>
+                        <a href="{{ route('researcher.dashboard') }}" class="btn btn-default"><strong>Voltar</strong></a>
                     </div>
                 </div>
             @endif

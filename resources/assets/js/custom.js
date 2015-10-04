@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('textarea').summernote({height: 300});
+    $('textarea.publicacao').summernote({height: 300});
 
     var campus = $('#campus_id').val();
 

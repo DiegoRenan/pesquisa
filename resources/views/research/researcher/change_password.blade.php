@@ -50,7 +50,7 @@
                         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> <strong>Alterar</strong></button>
                     </div>
                     <div class="col-sm-2 text-right">
-                        <a class="btn btn-default" href="{{ route('researcher.index') }}"><strong>Cancelar</strong></a>
+                        <a class="btn btn-default" href="{{ route('researcher.dashboard') }}"><strong>Cancelar</strong></a>
                     </div>
                 </div>
             </div>

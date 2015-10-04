@@ -4,7 +4,7 @@
             <div class="timeline-badge info">{!! $item->present()->flagTipo !!}</div>
             <div class="timeline-panel">
                 <div class="timeline-heading">
-                    <h4 class="timeline-title"><legend>{!! $item->present()->flagTipo !!} {{ $item->title }}</legend></h4>
+                    <h4 class="timeline-title"><legend>{{ $item->title }}</legend></h4>
                     <p><small class="text-muted"><i class="fa fa-clock-o"></i> Publicado por {{ $item->present()->publicadoCompleto }}</small></p>
                 </div>
                 <div class="timeline-body">
