@@ -34,13 +34,13 @@ class PublicacaoPresenter extends BasePresenter
     public function flagTipo()
     {
         if($this->flag_tipo == 'NW')
-            return '<i class="glyphicon glyphicon-bullhorn"></i>';
+            return 'glyphicon glyphicon-bullhorn';
         elseif($this->flag_tipo == 'ED')
-            return '<i class="fa fa-file"></i>';
+            return 'fa fa-file';
         elseif($this->flag_tipo == 'DC')
-            return '<i class="fa fa-file-text"></i>';
+            return 'fa fa-file-text';
         elseif($this->flag_tipo == 'EV')
-            return '<i class="fa fa-calendar"></i>';
+            return 'fa fa-calendar';
     }
 
     /**

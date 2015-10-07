@@ -27,11 +27,24 @@ class BlogController extends Controller {
     public function getPub()
     {
         $today = Carbon::now()->format('Y-m-d H:i:s');
-        $qt = 10;
+        $qt = 100;
 
         $content = Publicacao::orderBy('created_at', 'desc')->paginate($qt);
 
-        return view('blog.partials._timeline', compact('content'));
+        $pubs = [];
+        foreach ($content as $key => $value) {
+            $pubs[$key] = [
+                'id' => $value->id,
+                'flagTipo' => $value->present()->flagTipo, 
+                'title' => $value->title, 
+                'info' => $value->present()->publicadoCompleto, 
+                'content' => $value->present()->getSubContent, 
+                'link' => $value->present()->link,
+                'tipo' => $value->flag_tipo
+            ];
+        }
+
+        return response()->json($pubs);
     }
 
     public function newses()

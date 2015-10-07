@@ -3,7 +3,7 @@
     padding: 20px 0 20px;
     list-style: none;
 }
-
+    
 .timeline:before {
     content: " ";
     position: absolute;
@@ -131,7 +131,7 @@
 
 .timeline-title {
     margin-top: 0;
-    color: inherit;
+    color: green;
 }
 
 .timeline-body > p,
@@ -177,4 +177,11 @@
         border-right-width: 14px;
         border-left-width: 0;
     }
+}
+
+.timeline-select {
+    position: fixed;
+    display: inline-block;
+    z-index: 9999;
+    left: 42.5%;
 }

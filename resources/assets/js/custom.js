@@ -77,40 +77,59 @@ $("#campus_id").change(function(){
 });
 
 /*Loader infinito -----------------------------------------------------------------------------------------------------*/
-(function(){
+var timeline = new Vue({
+    el: "#timeline",
 
-    var myapp = angular.module('myapp', ['infinite-scroll']);
+    data: {
+        items: [],
+        page: 1,
+        searchText: ''
+    },
 
-    myapp.controller('ContentController', function($scope, Contents) {
+    methods: {
+        carrega: function carrega(page) {
+            var self = this;
+            jQuery.get('/blog/api/feed?page='+self.page).success(function(data) {
+                data.forEach(function(item){
+                    self.items.push(item);
+                });
+            });
+        },
 
-        $scope.contents = new Contents();
-    });
+        doFilter: function(ev, tipo) {
+            var self = this;
+            self.$set('searchText', tipo);
+            window.scrollTo(0,0);
+            self.carrega(self.page);
+        }
+    },
 
-    myapp.factory('Contents', function($http) {
+    ready: function() {
 
-        var Contents = function(){
-            this.items = [];
-            this.busy = false;
-            this.page = 1;
-        };
+        var self = this;
 
-        Contents.prototype.nextPage = function() {
-            var url = 'blog/api/feed?page='+this.page;
+        jQuery.get('/blog/api/feed?page='+self.page).success(function(data) {
+            data.forEach(function(item){
+                self.items.push(item);
+            });
+        });
+    },
+    
+    attached: function() {
 
-            if(this.busy) return;
+        var self = this;
+        
+        $(window).scroll(function() { 
 
-            this.busy = true;
+            var top = $(window).scrollTop();
+            var current = ($(document).height() - $(window).height());
 
-            $http.get(url).success(function(data){
-                $('ul#items').append(data);
-                this.page++;
-                this.busy = false;
-            }.bind(this));
-        };
-
-        return Contents;
-    });
-
-}).call(this);
+            if(top == current) {
+                self.$set('page', self.page+1);
+                self.carrega(self.page)
+            }
+        })
+    },
+});
 
 /*---------------------------------------------------------------------------------------------------------------------*/

@@ -16,21 +16,19 @@ elixir(function(mix) {
     mix.scripts([
         'jquery-1.11.3.js',
         'bootstrap.min.js',
-        'summernote.min.js',        
+        'summernote.min.js',
+        //'custom.js'  
     ], 'public/assets/js/app.js');
 
-    mix.scripts([
-        '../../../node_modules/angular/angular.min.js',
-        'ng-infinite-scroll.js',
-        'custom.js'
-    ], 'public/assets/js/custom.js');
+   // mix.copy('node_modules/vue/dist/vue.min.js', 'public/assets/js/vue.min.js');
+    //mix.copy('node_modules/vue-resource/dist/vue-resource.min.js', 'public/assets/js/vue-resource.min.js');
+    mix.copy('resources/assets/js/custom.js', 'public/assets/js/custom.js');
 
     mix.styles([
         'bootstrap.min.css',
         'bootstrap-theme.min.css',
         '../../../node_modules/font-awesome/css/font-awesome.css',
         'summernote.css'
-
     ], 'public/assets/css/app.css');
 
     /*CSS for blog*/
@@ -40,8 +38,8 @@ elixir(function(mix) {
     ], 'public/assets/css/blog.css');
 
     /*CSS for researcher dashboard*/
-    mix.copy('resources/assets/css/dashboard.css', 'public/assets/css/dashboard.css');
+    //mix.copy('resources/assets/css/dashboard.css', 'public/assets/css/dashboard.css');
 
-    mix.copy('resources/assets/fonts', 'public/assets/fonts');
-    mix.copy('node_modules/font-awesome/fonts', 'public/assets/fonts');
+    //mix.copy('resources/assets/fonts', 'public/assets/fonts');
+    //mix.copy('node_modules/font-awesome/fonts', 'public/assets/fonts');
 });

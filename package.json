@@ -6,6 +6,8 @@
   },
   "dependencies": {
     "font-awesome": "~4.4.0",
-    "summernote": "~0.6.16"
+    "summernote": "~0.6.16",
+    "vue-resource": "~0.1.16",
+    "vue": "~0.12.16"
   }
 }
