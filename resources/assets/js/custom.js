@@ -1,8 +1,5 @@
-$(document).ready(function() {
-    $('textarea.publicacao').summernote({height: 300});
-
-    var campus = $('#campus_id').val();
-
+function campusChange(campus)
+{
     if(typeof campus != 'undefined')
     {
         $.get("/researcher/"+campus+"/institutes",
@@ -29,6 +26,18 @@ $(document).ready(function() {
             }
         );
     }
+}
+
+$("#campus_id").change(function(){
+
+    var campus = $(this).val();
+    campusChange(campus);
+});
+
+$(document).ready(function() {
+    $('textarea.publicacao').summernote({height: 300});
+    var campus = $('#campus_id').val();
+    campusChange(campus);
 });
 
 $('#removerModal').on('show.bs.modal', function (e) {
@@ -47,36 +56,7 @@ $('#removerModal').find('.modal-footer #confirm').on('click', function(){
     $(this).data('form').submit();
 });
 
-$("#campus_id").change(function(){
-
-    var campus = $(this).val();
-
-    $.get("/researcher/"+campus+"/institutes",
-        function (data) {
-            var instituto = $('#instituto_id');
-            instituto.empty();
-
-            $("#instituto_id").append('<option value="" selected>Selecione o seu Instituto</a>');
-            for ($i = 0; $i < data.length; $i++) {
-                $('#instituto_id').append('<option value="' + data[$i].id + '">' + data[$i].name + '</a>');
-            }
-        }
-    );
-
-    $.get("/researcher/"+campus+"/departments",
-        function (data) {
-            var departamento = $('#departamento_id');
-            departamento.empty();
-
-            $("#departamento_id").append('<option value="" selected>Selecione o seu Departamento</a>');
-            for ($i = 0; $i < data.length; $i++) {
-                $('#departamento_id').append('<option value="' + data[$i].id + '">' + data[$i].name + '</a>');
-            }
-        }
-    );
-});
-
-/*Loader infinito -----------------------------------------------------------------------------------------------------*/
+/*Loader infinite -----------------------------------------------------------------------------------------------------*/
 var timeline = new Vue({
     el: "#timeline",
 
@@ -132,4 +112,4 @@ var timeline = new Vue({
     },
 });
 
-/*---------------------------------------------------------------------------------------------------------------------*/
+/*End Loader infinite--------------------------------------------------------------------------------------------------*/

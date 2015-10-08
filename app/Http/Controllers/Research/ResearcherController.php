@@ -204,8 +204,8 @@ class ResearcherController extends Controller {
      */
     public function getInstitutes($id)
     {
-        //$institutes = Instituto::where('campus_id', '=', $id)->orderBy('name', 'desc')->get();
-        $institutes = Instituto::all();
+        $institutes = Instituto::where('campus_id', '=', $id)->orderBy('name', 'desc')->get();
+        //$institutes = Instituto::all();
 
         return $institutes;
     }

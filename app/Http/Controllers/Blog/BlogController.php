@@ -24,34 +24,11 @@ class BlogController extends Controller {
         return view('blog.index', compact('content'));
     }
 
-    public function getPub()
-    {
-        $today = Carbon::now()->format('Y-m-d H:i:s');
-        $qt = 100;
-
-        $content = Publicacao::orderBy('created_at', 'desc')->paginate($qt);
-
-        $pubs = [];
-        foreach ($content as $key => $value) {
-            $pubs[$key] = [
-                'id' => $value->id,
-                'flagTipo' => $value->present()->flagTipo, 
-                'title' => $value->title, 
-                'info' => $value->present()->publicadoCompleto, 
-                'content' => $value->present()->getSubContent, 
-                'link' => $value->present()->link,
-                'tipo' => $value->flag_tipo
-            ];
-        }
-
-        return response()->json($pubs);
-    }
-
     public function newses()
     {
         $today = Carbon::now();
 
-        $newses = News::where('publicated_at', '<=', $today)->orderBy('publicated_at', 'desc')->simplePaginate(5);
+        $newses = News::where('publicated_at', '<=', $today)->orderBy('publicated_at', 'desc')->simplePaginate(15);
 
         $newses->load('Publicacao');
 
@@ -116,5 +93,43 @@ class BlogController extends Controller {
         $event->load("Publicacao");
 
         return view('blog.event.event', compact('event'));
+    }
+
+    public function getPub($year = null, $month = null)
+    {
+
+        $today = Carbon::now()->format('Y-m-d H:i:s');
+        $qt = 100;
+
+        if(isset($year)) {
+            
+            if(isset($month)) {
+                /* AAAA/MM */
+                $content = Publicacao::whereRaw('YEAR(created_at) = ? AND MONTH(created_at) = ?', [$year, $month])->orderBy('created_at', 'desc')->paginate($qt);
+            }            
+            else {
+                /* AAAA/ */
+                $content = Publicacao::whereRaw('YEAR(created_at) = ?', [$year])->orderBy('created_at', 'desc')->paginate($qt);
+            }
+        }
+        else {
+            $content = Publicacao::orderBy('created_at', 'desc')->paginate($qt);
+        }
+
+
+        $pubs = [];
+        foreach ($content as $key => $value) {
+            $pubs[$key] = [
+                'id' => $value->id,
+                'flagTipo' => $value->present()->flagTipo, 
+                'title' => $value->title, 
+                'info' => $value->present()->publicadoCompleto, 
+                'content' => $value->present()->getSubContent, 
+                'link' => $value->present()->link,
+                'tipo' => $value->flag_tipo
+            ];
+        }
+
+        return response()->json($pubs);
     }
 }

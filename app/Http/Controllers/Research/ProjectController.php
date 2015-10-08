@@ -9,7 +9,7 @@ class ProjectController extends Controller {
 
 	public function dadosPessoais()
     {
-        return view('research.project.partials.form_dados_pessoais');
+        return view('research.project.create');
     }
 
 }

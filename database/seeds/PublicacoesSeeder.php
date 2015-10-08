@@ -15,10 +15,11 @@ class PublicacoesSeeder extends Seeder
      */
     public function run()
     {
-       /* DB::table('news')->truncate();
+        /*DB::table('news')->truncate();
         DB::table('editals')->truncate();
         DB::table('documents')->truncate();
-        DB::table('eventos')->truncate();*/
+        DB::table('eventos')->truncate();
+        DB::table('publicacaos')->truncate();*/
 
         $faker = Faker::create();
 
@@ -30,7 +31,9 @@ class PublicacoesSeeder extends Seeder
                 'url' => $faker->url,
                 'content' => $faker->paragraph(5),
                 'flag_tipo' => 'NW',
-                'user_id' => '1'
+                'user_id' => '1',
+                'created_at' => $faker->dateTime(),
+                'updated_at' => $faker->dateTime(),
             ]);
 
             $aux = rand(0,3);

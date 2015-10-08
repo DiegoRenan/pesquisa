@@ -12,7 +12,7 @@ class PublicacaoPresenter extends BasePresenter
     public function publicadoCompleto()
     {
         if($this->flag_tipo == 'NW')
-            return $this->user->name.' em '.$this->news->publicated_at->format("d M, Y");
+            return $this->user->name.' em '.$this->createdAt(); //$this->news->publicated_at->format("d M, Y");
         else
             return $this->user->name.' em '.$this->createdAt();
     }

@@ -1,21 +1,21 @@
-<ol class="breadcrumb">
-    <li><a href="#"><small>Dados Pessoais</small></a></li>
-    <li><a href="#"><small>Enquadramento</small></a></li>
-    <li><a href="#"><small>Caracterização</small></a></li>
-    <li><a href="#"><small>Objetivos</small></a></li>
-    <li class="active"><small>Metodologia</small></li>
-    <li><a href="#"><small>Equipe</small></a></li>
-    <li><a href="#"><small>Orçamento</small></a></li>
-    <li><a href="#"><small>Cronograma</small></a></li>
-    <li><a href="#"><small>Referências</small></a></li>
-    <li><a href="#"><small>Anexos</small></a></li>
-    <li><a href="#"><small>Revisão</small></a></li>
-</ol>
-
 <div class="form-group">
     <div class="row">
         <div class="col-sm-12">
+            {!! Form::label('metodologia', 'Metodologia') !!}
             {!! Form::textarea('metodologia', null, ['class' => 'publicacao form-control']) !!}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <a class="btn btn-default" href="#div4"><i class="glyphicon glyphicon-chevron-left"> Voltar</i></a>
+        </div>
+
+        <div class="col-sm-5">
+            <buttom type="submit" class="btn btn-success"><i class="glyphicon glyphicon-save"></i> Salvar</buttom>
+        </div>
+
+        <div class="col-sm-2 text-right">
+            <a class="btn btn-default" href="#div6">Avançar <i class="glyphicon glyphicon-chevron-right"></i></a>
         </div>
     </div>
 </div>

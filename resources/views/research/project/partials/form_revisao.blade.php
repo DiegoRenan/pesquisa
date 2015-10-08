@@ -1,21 +1,20 @@
-<ol class="breadcrumb">
-    <li><a href="#"><small>Dados Pessoais</small></a></li>
-    <li><a href="#"><small>Enquadramento</small></a></li>
-    <li><a href="#"><small>Caracterização</small></a></li>
-    <li><a href="#"><small>Objetivos</small></a></li>
-    <li><a href="#"><small>Metodologia</small></a></li>
-    <li><a href="#"><small>Equipe</small></a></li>
-    <li><a href="#"><small>Orçamento</small></a></li>
-    <li><a href="#"><small>Cronograma</small></a></li>
-    <li><a href="#"><small>Referências</small></a></li>
-    <li><a href="#"><small>Anexos</small></a></li>
-    <li class="active"><small>Revisão</small></li>
-</ol>
-
 <div class="form-group">
     <div class="row">
         <div class="col-sm-12">
-            Cronograma
+            Revisao
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <a class="btn btn-default" href="#div10"><i class="glyphicon glyphicon-chevron-left"> Voltar</i></a>
+        </div>
+
+        <div class="col-sm-5">
+            <buttom type="submit" class="btn btn-success"><i class="glyphicon glyphicon-save"></i> Salvar</buttom>
+        </div>
+
+        <div class="col-sm-2 text-right">
+            {{-- do nothing--}}
         </div>
     </div>
 </div>

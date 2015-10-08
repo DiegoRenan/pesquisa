@@ -166,6 +166,8 @@ Route::group(['prefix' => 'researcher', 'namespace' => 'Research'], function()
 Route::group(['prefix' => 'blog', 'namespace' => 'Blog', ], function(){
 
     Route::pattern('id', '[0-9]+');
+    Route::pattern('year', '^\d{4}$');
+    Route::pattern('month', '^(0?[1-9]|1[012])$');
 
     Route::get('/',                      ['as'   =>  'blog.index',     'uses'  =>  'BlogController@index']);
 
@@ -181,7 +183,7 @@ Route::group(['prefix' => 'blog', 'namespace' => 'Blog', ], function(){
     Route::get('/event',                 ['as'   =>  'blog.events',    'uses'  =>  'BlogController@events']);
     Route::get('/event/{id}',            ['as'   =>  'blog.event',     'uses'  =>  'BlogController@event']);
 
-    Route::get('/api/feed', ['as'   =>  'api.getPub',     'uses'  =>  'BlogController@getPub']);
+    Route::get('/api/feed/{year?}/{month?}/', ['as'   =>  'api.getPub',     'uses'  =>  'BlogController@getPub']);
 
 });
 

@@ -17,12 +17,15 @@ elixir(function(mix) {
         'jquery-1.11.3.js',
         'bootstrap.min.js',
         'summernote.min.js',
-        //'custom.js'  
+        '../../../node_modules/jquery-mask-plugin/dist/jquery.mask.js'
     ], 'public/assets/js/app.js');
 
-   // mix.copy('node_modules/vue/dist/vue.min.js', 'public/assets/js/vue.min.js');
-    //mix.copy('node_modules/vue-resource/dist/vue-resource.min.js', 'public/assets/js/vue-resource.min.js');
+   /* mix.copy('node_modules/vue/dist/vue.min.js', 'public/assets/js/vue.min.js');
+    mix.copy('node_modules/vue-resource/dist/vue-resource.min.js', 'public/assets/js/vue-resource.min.js');*/
     mix.copy('resources/assets/js/custom.js', 'public/assets/js/custom.js');
+    mix.copy('resources/assets/js/project.js', 'public/assets/js/project.js');
+    mix.copy('node_modules/blueimp-file-upload-jquery-ui/js/jquery.fileupload.js', 'public/assets/js/fileupload.js');
+    mix.copy('node_modules/blueimp-file-upload-jquery-ui/js/vendor/jquery.ui.widget.js', 'public/assets/js/jquery.ui.widget.js');
 
     mix.styles([
         'bootstrap.min.css',
@@ -38,8 +41,9 @@ elixir(function(mix) {
     ], 'public/assets/css/blog.css');
 
     /*CSS for researcher dashboard*/
-    //mix.copy('resources/assets/css/dashboard.css', 'public/assets/css/dashboard.css');
+    mix.copy('resources/assets/css/dashboard.css', 'public/assets/css/dashboard.css');
+    mix.copy('node_modules/blueimp-file-upload-jquery-ui/css/jquery.fileupload-ui.css', 'public/assets/css/jquery.fileupload-ui.css');
 
-    //mix.copy('resources/assets/fonts', 'public/assets/fonts');
-    //mix.copy('node_modules/font-awesome/fonts', 'public/assets/fonts');
+    /*mix.copy('resources/assets/fonts', 'public/assets/fonts');
+    mix.copy('node_modules/font-awesome/fonts', 'public/assets/fonts');*/
 });
