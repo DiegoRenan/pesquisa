@@ -3,10 +3,8 @@
 		<legend style="color: #428bca;">Ultimas Publicações</legend>
 		@foreach($content as $key => $item)
 			<div>
-				<a href="{{ $item->present()->link }}">
-					<small>{!! $item->present()->flagTipo !!} {{ strtoupper($item->title) }}</small>
-				</a>
 				<p>
+					<a href="{{ $item->present()->link }}"><small><i class="{{ $item->present()->flagTipo }}"></i> {{ strtoupper($item->title) }}</small></a>
 					<small class="text-muted"><i class="fa fa-clock-o"></i> Publicado por {{ $item->present()->publicadoCompleto }}</small>
 				</p>
 			</div>

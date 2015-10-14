@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12">
             {!! Form::label('objetivos', 'Objetivos') !!}
-            {!! Form::textarea('objetivos', null, ['class' => 'publicacao form-control']) !!}
+            {!! Form::textarea('objetivos', null, ['class' => 'publicacao form-control', 'v-model' => 'projeto.objetivos']) !!}
         </div>
     </div>
     <div class="row">

@@ -16,7 +16,7 @@
                     <legend><i class="glyphicon glyphicon-edit"></i> Criar Projeto de Pesquisa</legend>
                     <div id="app">
                         {{--<div class="well">
-                            <pre>@{{ form | json }}</pre>
+                            <pre>@{{ projeto | json }}</pre>
                         </div>--}}
                         <ol class="breadcrumb">
                             <li><a href="#div1" v-class="active:form == '#div1'" v-model="form" v-on="click:doNext($event, '#div1')"><small>Dados Pessoais</small></a></li>

@@ -17,7 +17,8 @@ elixir(function(mix) {
         'jquery-1.11.3.js',
         'bootstrap.min.js',
         'summernote.min.js',
-        '../../../node_modules/jquery-mask-plugin/dist/jquery.mask.js'
+        '../../../node_modules/jquery-mask-plugin/dist/jquery.mask.js',
+        '../../../node_modules/moment/moment.js'
     ], 'public/assets/js/app.js');
 
    /* mix.copy('node_modules/vue/dist/vue.min.js', 'public/assets/js/vue.min.js');

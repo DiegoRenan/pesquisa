@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12">
             {!! Form::label('referencias', 'Referências') !!}
-            {!! Form::textarea('referencias', null, ['class' => 'publicacao form-control']) !!}
+            {!! Form::textarea('referencias', null, ['class' => 'publicacao form-control', 'v-model' => 'projeto.referencias']) !!}
         </div>
     </div>
     <div class="row">
