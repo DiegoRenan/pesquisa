@@ -16,11 +16,11 @@
                     </tr>
                     <tr>
                         <td>(3490-36) Serviços de Terceiros - Pessoa Física</td>
-                        <td><input type="text" class="form-control" v-model="projeto.orcamento.servicosPessoaFisica"/></td>
+                        <td><input type="text" class="form-control orcamento" v-model="projeto.orcamento.servicosPessoaFisica"/></td>
                     </tr>
                     <tr>
                         <td>(3490-39) Serviços de Terceiros - Pessoa Jurídica</td>
-                        <td><input type="text" class="form-control" v-model="projeto.orcamento.servicosPessoaJuridica"/></td>
+                        <td><input type="text" class="form-control orcamento" v-model="projeto.orcamento.servicosPessoaJuridica"/></td>
                     </tr>
                     <tr class="text-center">
                         <td colspan="2">Capital</td>
@@ -31,15 +31,15 @@
                     </tr>
                     <tr>
                         <td>(4590-51) Obras e Instalações</td>
-                        <td><input type="text" class="form-control" v-model="projeto.orcamento.obrasInstalacoes"/></td>
+                        <td><input type="text" class="form-control orcamento" v-model="projeto.orcamento.obrasInstalacoes"/></td>
                     </tr>
                     <tr>
                         <td>(4590-52) Equipamento e Material Permanente</td>
-                        <td><input type="text" class="form-control" v-model="projeto.orcamento.equipamentoMaterial"/></td>
+                        <td><input type="text" class="form-control orcamento" v-model="projeto.orcamento.equipamentoMaterial"/></td>
                     </tr>
                     <tr>
                         <td>Total Geral</td>
-                        <td><input type="text" class="form-control" v-model="projeto.orcamento.total"/></td>
+                        <td><input type="text" class="form-control orcamento" v-model="projeto.orcamento.total"/></td>
                     </tr>
                 </tbody>
             </table>
