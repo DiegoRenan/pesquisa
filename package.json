@@ -7,6 +7,7 @@
   "dependencies": {
     "font-awesome": "~4.4.0",
     "moment": "^2.10.6",
+    "please-wait": "0.0.5",
     "summernote": "~0.6.16",
     "vue": "~0.12.16",
     "vue-resource": "~0.1.16"

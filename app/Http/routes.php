@@ -150,7 +150,8 @@ Route::group(['prefix' => 'researcher', 'namespace' => 'Research'], function()
         /* Projeto */
         Route::group(['prefix' => 'projetc'], function()
         {
-            Route::get('/create', ['as' => 'project.create', 'uses' => 'ProjectController@dadosPessoais']);
+            Route::get('/create', ['as' => 'project.create', 'uses' => 'ProjectController@create']);
+            Route::get('/api/dados', ['as' => 'project.getDados', 'uses' => 'ProjectController@getDados']);
         });
 
     });
