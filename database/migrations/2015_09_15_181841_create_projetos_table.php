@@ -21,40 +21,19 @@ class CreateProjetosTable extends Migration {
             $table->longText('objetivos');
             $table->longText('metodologia');
             $table->longText('referencias');
+            
+            /*References are created in migration alter_PROJ_projetos.php*/
             $table->unsignedInteger('convenio_id');
             $table->unsignedInteger('financiador_id');
             $table->unsignedInteger('subAreaConhecimento_id');
             $table->unsignedInteger('grupoPesquisa_id');
+            
             $table->unsignedInteger('pesquisador_id');
+            $table->foreign('pesquisador_id')->references('id')->on('pesquisadors');
+			
 			$table->timestamps();
             $table->softDeletes();
 		});
-
-        Schema::create('PROJ_datas', function(Blueprint $table)
-        {
-            $table->increments('idData');
-            $table->date('dataInicio');
-            $table->unsignedInteger('duracao');
-
-            $table->unsignedInteger('projeto_id');
-            $table->foreign('projeto_id')
-                ->references('PROJ_projetos')
-                ->on('idProjeto')
-                ->onDelete('CASCADE');
-        });
-
-        Schema::create('PROJ_palavras_chave', function(Blueprint $table)
-        {
-            $table->increments('idPalavra');
-            $table->string('palavra', 25);
-
-
-            $table->unsignedInteger('projeto_id');
-            $table->foreign('projeto_id')
-                ->references('PROJ_projetos')
-                ->on('idProjeto')
-                ->onDelete('CASCADE');
-        });
 	}
 
 	/**

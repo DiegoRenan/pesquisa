@@ -3,7 +3,7 @@
     <div id="timeline">
         <div class="row">
             <div class="col-sm-12">
-                <div class="timeline-select text-center">
+                <div class="timeline-select">
                     <div class="btn-group btn-group-xs">
                         <button class="btn btn-xs" v-class="btn-success:searchText === '', btn-default:searchText != ''" v-on="click:doFilter($event, '')">Todos</button>
                         <button class="btn btn-xs" v-class="btn-success:searchText === 'NW', btn-default:searchText != 'NW'" v-on="click:doFilter($event, 'NW')">Notícia</button>

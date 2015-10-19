@@ -14,18 +14,18 @@ class CreateGrupoPesquisasTable extends Migration {
 	{
 		Schema::create('grupo_pesquisas', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('idGrupoPesquisa');
             $table->string('name');
 			$table->timestamps();
 		});
 
         Schema::create('pesquisador_has_grupo_pesquisa', function(Blueprint $table)
         {
-            $table->unsignedInteger('pesquisador_id')
-                ->references('id')->on('pesquisadors');
+            $table->unsignedInteger('pesquisador_id');
+            $table->foreign('pesquisador_id')->references('id')->on('pesquisadors');
 
-            $table->unsignedInteger('grupo_pesquisa_id')
-                ->references('id')->on('grupo_pesquisas');
+            $table->unsignedInteger('grupoPesquisa_id');
+            $table->foreign('grupoPesquisa_id')->references('idGrupoPesquisa')->on('grupo_pesquisas');
 
         });
 	}
