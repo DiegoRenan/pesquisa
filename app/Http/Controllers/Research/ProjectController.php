@@ -38,7 +38,6 @@ class ProjectController extends Controller {
 
     public function getDados()
     {
-
     	sleep(5);
     	$json = [
                 'idProjeto' => null,
@@ -70,6 +69,7 @@ class ProjectController extends Controller {
 	                'fone' => "6634014730",
 	                'regime' => "ALUNO"
 	            ],
+
 	            'projeto' => [
 	                'titulo' => '',
                     'descricao' => '',

@@ -30,6 +30,21 @@
                     <legend><i class="glyphicon glyphicon-edit"></i> Criar Projeto de Pesquisa</legend>
                     <div id="app">
                         <meta name="csrf-token" content="{{ csrf_token() }}" v-el="token" />
+                        <!-- Loading -->
+                        <div class="modal fade" id="loading">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Carregando...</h4>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <i class="fa fa-refresh fa-spin fa-3x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+>>>>>>> f65259f451c6eeb9e68971d99c336f48f399da48
                         <ol class="breadcrumb">
                             <li><a href="#div1" v-class="active:form == '#div1'" v-model="form" v-on="click:doNext($event, '#div1')"><small>Dados Pessoais</small></a></li>
                             <li><a href="#div2" v-class="active:form == '#div2'" v-model="form" v-on="click:doNext($event, '#div2')"><small>Enquadramento</small></a></li>
