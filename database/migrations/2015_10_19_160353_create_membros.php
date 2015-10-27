@@ -26,13 +26,15 @@ class CreateMembros extends Migration {
 			$table->foreign('categoria_id')->references('id')->on('categorias');
 		});
 
-		Schema::create('PROJ_projetos_PROJ_membros', function(Blueprint $table)
+		Schema::create('PROJ_projeto_PROJ_membro', function(Blueprint $table)
 		{
 			$table->unsignedInteger('projeto_id');
 			$table->foreign('projeto_id')->references('idProjeto')->on('PROJ_projetos');
 
 			$table->unsignedInteger('membro_id');
 			$table->foreign('membro_id')->references('idMembro')->on('PROJ_membros');
+
+            $table->string('cargaHoraria', 10);
 		});
 	}
 

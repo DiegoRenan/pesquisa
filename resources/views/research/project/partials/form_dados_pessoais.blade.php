@@ -1,8 +1,6 @@
 <div class="well well-sm"><small>Os dados deste formulário não podem ser modificados! Se algum dado estiver incorreto vá para a edição de dados!
         <a href="{{ route('researcher.researcher.edit', Auth::user()->id) }}">Clique aqui</a> para editar seus dados</small></div>
 
-{!! Form::open() !!}
-
 <div class="form-group">
     <div class="row">
         <div class="col-sm-8">
@@ -135,5 +133,3 @@
         <a class="btn btn-default" href="#div2">Avançar <i class="glyphicon glyphicon-chevron-right"></i></a>
     </div>
 </div>
-
-{!! Form::close() !!}

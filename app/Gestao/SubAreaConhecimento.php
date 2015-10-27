@@ -8,7 +8,7 @@ class SubAreaConhecimento extends Model {
 
     protected $primaryKey = 'idSubArea';
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = ['nome', 'area_id'];
 

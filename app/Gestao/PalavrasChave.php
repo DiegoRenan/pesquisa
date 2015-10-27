@@ -8,16 +8,16 @@ class PalavrasChave extends Model {
 
     protected $primaryKey = 'idPalavra';
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
-    protected $fillable = ['palavra', 'projeto_id'];
+    protected $fillable = ['palavra'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function projeto()
     {
-        return $this->hasMany('App\Gestao\Projeto');
+        return $this->belongsTo('App\Gestao\Projeto');
     }
 
 }

@@ -221,4 +221,11 @@ class ResearcherController extends Controller {
         return $departments;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTitulacaos()
+    {
+        return Titulacao::all()->orderBy('name', 'asc')->get()->toArry();
+    }
 }

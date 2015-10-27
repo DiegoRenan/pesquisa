@@ -15,4 +15,12 @@ class SubAreaCnpq extends Model {
         return $this->belongsTo('App\Stuff\AreaCnpq');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function projeto()
+    {
+        return $this->hasMany('App\Gestao\Projeto');
+    }
+
 }

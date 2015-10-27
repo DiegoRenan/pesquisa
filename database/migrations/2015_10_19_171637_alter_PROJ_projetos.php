@@ -16,7 +16,7 @@ class AlterPROJProjetos extends Migration {
 		{
 			$table->foreign('convenio_id')->references('idConvenio')->on('PROJ_convenios');
 			$table->foreign('financiador_id')->references('idFinanciador')->on('PROJ_financiadores');
-			$table->foreign('subAreaConhecimento_id')->references('idSubArea')->on('PROJ_sub_areas_conhecimento');
+			$table->foreign('subAreaConhecimento_id')->references('id')->on('sub_areas_cnpq');
 			$table->foreign('grupoPesquisa_id')->references('idGrupoPesquisa')->on('grupo_pesquisas');
 		});
 	}

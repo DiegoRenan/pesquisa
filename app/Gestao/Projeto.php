@@ -11,6 +11,20 @@ class Projeto extends Model {
 
     use SoftDeletes;
 
+    protected $fillable = [
+        'titulo',
+        'descricao',
+        'caracterizacao',
+        'objetivos',
+        'metodologia',
+        'referencias',
+        'convenio_id',
+        'financiador_id',
+        'subAreaConhecimento_id',
+        'grupoPesquisa_id',
+        'pesquisador_id',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -21,6 +35,11 @@ class Projeto extends Model {
     public function pesquisador()
     {
         return $this->belongsTo('App\Gestao\Pesquisador');
+    }
+
+    public function projetoDatas()
+    {
+        return $this->hasMany('App\Gestao\ProjetoDatas');
     }
 
     public function convenio()
@@ -35,6 +54,21 @@ class Projeto extends Model {
 
     public function subAreaConhecimento()
     {
-        return $this->belongsTo('App\Gestao\SubAreaConhecimento');
+        return $this->belongsTo('App\Stuff\SubAreaCnpq');
+    }
+
+    public function palavrasChave()
+    {
+        return $this->hasMany('App\Gestao\PalavrasChave');
+    }
+
+    public function membros()
+    {
+        return $this->belongsToMany('App\Gestao\Membro', 'PROJ_projeto_PROJ_membro')->withPivot('cargaHoraria');
+    }
+
+    public function orcamento()
+    {
+        return $this->hasOne('App\Gestao\Orcamento');
     }
 }

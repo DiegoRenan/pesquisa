@@ -18,7 +18,7 @@ class CreateAnexos extends Migration {
 			$table->string('nome', 250);
 			$table->text('arquivo');
 			$table->unsignedInteger('projeto_id');
-			$table->foreign('projeto_id')->references('idProjeto')->on('PROJ_projetos');
+			$table->foreign('projeto_id')->references('idProjeto')->on('PROJ_projetos')->onDelete('CASCADE');
 			$table->timestamps();
 		});
 	}

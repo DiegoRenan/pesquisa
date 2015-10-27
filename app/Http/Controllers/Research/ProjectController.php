@@ -1,15 +1,39 @@
 <?php namespace App\Http\Controllers\Research;
 
+use App\Gestao\Membro;
+use App\Gestao\Orcamento;
+use App\Gestao\PalavrasChave;
+use App\Gestao\Projeto;
+use App\Gestao\ProjetoDatas;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Stuff\AreaCnpq;
+use App\Stuff\CategoriaPesquisador;
+use App\Stuff\SubAreaCnpq;
+use App\Stuff\Titulacao;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller {
 
 	public function create()
     {
-        return view('research.project.create');
+        $titles = Titulacao::orderBy('name', 'asc')->lists('name', 'id');
+
+        $categories = CategoriaPesquisador::orderBy('name', 'asc')->lists('name', 'id');
+
+        $area = AreaCnpq::all()->lists('name', 'id');
+
+        $subArea = SubAreaCnpq::all()->lists('name', 'id');
+
+        $duracao = [];
+        for($i = 6; $i <= 36; $i+=6) {
+            $duracao[$i] = "$i Meses";
+        }
+
+        return view('research.project.create', compact('titles', 'categories', 'area', 'subArea', 'duracao'));
     }
 
     public function getDados()
@@ -17,6 +41,7 @@ class ProjectController extends Controller {
 
     	sleep(5);
     	$json = [
+                'idProjeto' => null,
 	            'dadosPessoais' => [
 	                'nome' => "Vinicius Fernandes Brito",
 	                'matricula' => "200811722003",
@@ -45,44 +70,159 @@ class ProjectController extends Controller {
 	                'fone' => "6634014730",
 	                'regime' => "ALUNO"
 	            ],
-	            'enquadramento' => [
-	                'titulo' => 'Título do Projeto Veio Pela API',
-	                'dataInicio' => '2015-10-09',
-	                'duracao' => '12',
-	                'convenio' => 'Não Possui convênio',
-	                'financiador' => 'Não possui financiador',
-	                'area' => '1',
-	                'subArea' => '1',
-	                'grupoPesquisa' => '1',
-	                'descricao' => 'Aqui é a descrição do projeto',
-	                'palavra1' => 'palavra chave 1',
-	                'palavra2' => 'palavra chave 2',
-	                'palavra3' => 'palavra chave 3'
-
+	            'projeto' => [
+	                'titulo' => '',
+                    'descricao' => '',
+                    'caracterizacao' => "",
+                    'objetivos' => "",
+                    'metodologia' => "",
+                    'referencias' => "",
+	                'convenio_id' => '',
+	                'financiador_id' => '',
+	                'area_id' => '',
+	                'subAreaConhecimento_id' => '',
+	                'grupoPesquisa_id' => '',
+	                'pesquisador_id' => 1,
 	            ],
-	            'caracterizacao' => "Aqui é um texto enorme de caracterizacao do projeto",
-	            'objetivos' => "Aqui é um texto enorme de objetivos do projeto",
-	            'metodologia' => "Aqui é um texto enorme de metodologia do projeto",
+	            'projetoDatas' => [
+                    'dataInicio' => Carbon::now()->format('Y-m-d'),
+                    'duracao' => '6',
+                ],
+                'palavrasChave' => [
+                    'palavra1' => '',
+                    'palavra2' => '',
+                    'palavra3' => ''
+                ],
 	            'membros' => [],
 	            'orcamento' => [
-	                'materialConsumo' => '10.00',
-	                'servicosPessoaFisica' => '10.00',
-	                'servicosPessoaJuridica' => '10.00',
-	                'obrasInstalacoes' => '10.00',
-	                'equipamentoMaterial' => '10.00',
-	                'total' => 'R$ 50.00'
+	                'materialConsumo' => '',
+	                'servicosPessoaFisica' => '',
+	                'servicosPessoaJuridica' => '',
+	                'obrasInstalacoes' => '',
+	                'equipamentoMaterial' => '',
+	                'total' => ''
 	            ],
 	            'cronograma' => [],
-	            'referencias' => "Aqui é um texto enorme de referências do projeto",
-	            'anexos' => [
-	                
-	                ['nome' => 'Nome Arquivo 1', 'id' => '1'],
-	                ['nome' => 'Nome Arquivo 3', 'id' => '3'],
-	                ['nome' => 'Nome Arquivo 2', 'id' => '2']
-	            ]	        
+	            'anexos' => []
         ];
 
-        return $json;
+        return response()->json($json);
     }
 
+    public function saveDados(Request $request)
+    {
+        $json = $request->all();
+
+        $idProjeto = $request['idProjeto'];
+        /*
+         * $dadosPessoais = $request['dadosPessoais'];
+         * $localTrabalho = $request['localTrabalho'];
+        */
+        $projeto = $request['projeto'];
+        $projetoDatas = $request['projetoDatas'];
+        $palavrasChave = $request['palavrasChave'];
+        $membros = $request['membros'];
+        $orcamento = $request['orcamento'];
+        $cronograma = $request['cronograma'];
+        $anexos = $request['anexos'];
+
+        if($idProjeto) {
+            $proj = Projeto::findOrFail($idProjeto);
+            $proj->update($projeto);
+        }
+        else {
+            /* Criando Projeto */
+            $proj = new Projeto($projeto);
+            $proj->save();
+
+            /* Salvando as Dadas */
+            $data = new ProjetoDatas($projetoDatas);
+            $proj->projetoDatas()->save($data);
+
+            /* Salvando  palavras chave */
+            foreach($palavrasChave as $palavra) {
+                $p = new PalavrasChave(['palavra' => $palavra]);
+                $proj->palavrasChave()->save($p);
+            }
+
+            /* Salvando Membros */
+            $members = [];
+            foreach($membros as $mb) {
+                $members[$mb['idMembro']] = array('cargaHoraria' => $mb['cargaHoraria']);
+            }
+            $proj->membros()->sync($members);
+
+            /* Salvando Orcamento */
+            $orc = new Orcamento($orcamento);
+            $proj->orcamento()->save($orc);
+
+            /* Salvando Cronograma */
+            /* Salvando Anexos */
+
+        }
+        $json['idProjeto'] = $proj->idProjeto;
+        return response()->json($json);
+    }
+
+    public function searchMembro(Request $request)
+    {
+        $membro = Membro::where('cpf', 'like', $request->cpf)->first();
+        if(($membro)) {
+            return
+                [
+                    'data'  => [
+                        'idMembro' => $membro->idMembro,
+                        'nome' => $membro->nome_membro,
+                        'cpf' => $membro->cpf,
+                        'instituicao' => $membro->instituicao,
+                        'titulacao_id' => $membro->titulacao_id,
+                        'categoria_id' => $membro->categoria_id,
+                        'cargaHoraria' => ''
+                    ],
+                    'exibir' => true
+                ];
+        }
+        else {
+            return
+                [
+                    'data'  => [
+                        'idMembro' => '',
+                        'nome' => '',
+                        'cpf' => $request->cpf,
+                        'instituicao' => '',
+                        'titulacao' => '',
+                        'categoria' => '',
+                        'cargaHoraria' => ''
+                    ],
+                    'exibir' => true
+                ];
+        }
+    }
+
+    public function addMembro(Request $request)
+    {
+        $this->validate($request,[
+            'nome_membro' => 'required|max:50',
+            'cpf' => 'required|unique:PROJ_membros|max:16',
+            'instituicao' => 'required|max:150',
+            'titulacao_id' => 'exists:titulacaos,id',
+            'categoria_id' => 'exists:categorias,id'
+        ]);
+
+        $membro = Membro::create($request->all());
+
+        return
+            [
+                'data'  => [
+                    'idMembro' => $membro->idMembro,
+                    'nome' => $membro->nome_membro,
+                    'cpf' => $membro->cpf,
+                    'instituicao' => $membro->instituicao,
+                    'titulacao_id' => $membro->titulacao_id,
+                    'categoria_id' => $membro->categoria_id,
+                    'cargaHoraria' => ''
+                ],
+                'exibir' => false
+            ];
+    }
 }

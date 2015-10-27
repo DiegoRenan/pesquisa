@@ -29,6 +29,7 @@
                 <div class="col-sm-11">
                     <legend><i class="glyphicon glyphicon-edit"></i> Criar Projeto de Pesquisa</legend>
                     <div id="app">
+                        <meta name="csrf-token" content="{{ csrf_token() }}" v-el="token" />
                         <ol class="breadcrumb">
                             <li><a href="#div1" v-class="active:form == '#div1'" v-model="form" v-on="click:doNext($event, '#div1')"><small>Dados Pessoais</small></a></li>
                             <li><a href="#div2" v-class="active:form == '#div2'" v-model="form" v-on="click:doNext($event, '#div2')"><small>Enquadramento</small></a></li>

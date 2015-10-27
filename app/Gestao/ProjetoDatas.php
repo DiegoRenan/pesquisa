@@ -8,16 +8,16 @@ class ProjetoDatas extends Model {
 
     protected $primaryKey = 'idData';
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
-    protected $fillable = ['dataInicio', 'duracao', 'projeto_id'];
+    protected $fillable = ['dataInicio', 'duracao'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function projeto()
     {
-        return $this->hasMany('App\Gestao\Projeto');
+        return $this->belongsTo('App\Gestao\Projeto');
     }
 
 }

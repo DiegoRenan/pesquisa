@@ -9,13 +9,13 @@
             </div>
                 <table class="table table-responsive table-bordered">
                     <thead>
-                    <tr>
+                    <tr class="text-center">
                         <td><strong>Nome Completo</strong></td>
                         <td><strong>CPF</strong></td>
                         <td><strong>Titulação</strong></td>
                         <td><strong>Instituição</strong></td>
                         <td><strong>Categoria Funcional</strong></td>
-                        <td><strong>Carga Horária Semanal</strong></td>
+                        <td><strong>CH Semanal</strong></td>
                         <td></td>
                     </tr>
                     </thead>
@@ -69,19 +69,19 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="nome">Nome</label>
-                        <input type="text" name="nome" class="form-control" v-model="membro.data.nome"/>
+                        <input type="text" name="nome" required="required" class="form-control" v-el="membroNome" v-model="membro.data.nome"/>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="cpf">CPF</label>
-                        <input type="text" name="cpf" class="form-control" v-model="membro.data.cpf"/>
+                        <input type="text" name="cpf" readonly class="form-control" v-model="membro.data.cpf"/>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="titulacao">Titulação</label>
-                        <input type="text" name="titulacao" class="form-control" v-model="membro.data.titulacao"/>
+                        {!! Form::select('titulacao', $titles, null, ['class' => 'form-control', 'required', 'v-el' => 'membroTitulo', 'v-model' => 'membro.data.titulacao_id']) !!}
                     </div>
                 </div>
             </div>
@@ -90,26 +90,31 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="instituicao">Instituição</label>
-                        <input type="text" name="instituicao" class="form-control" v-model="membro.data.instituicao"/>
+                        <input type="text" name="instituicao" required="required" class="form-control" v-el="membroInstituicao" v-model="membro.data.instituicao"/>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="categoria">Categoria Funcional</label>
-                        <input type="text" name="categoria" class="form-control" v-model="membro.data.categoria"/>
+                        {!! Form::select('categoria', $categories, null, ['class' => 'form-control', 'required', 'v-el' => 'membroCategoria', 'v-model' => 'membro.data.categoria_id']) !!}
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="cargaHoraria">Carga Horária</label>
-                        <input type="text" name="cargaHoraria" class="form-control" v-model="membro.data.cargaHoraria"/>
+                        <input type="text" name="cargaHoraria" required="required" class="form-control" v-model="membro.data.cargaHoraria"/>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Adicionar</button>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group text-right">
+                        <button type="reset" class="btn btn-danger" v-on="click:clearMembro"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
                     </div>
                 </div>
             </div>

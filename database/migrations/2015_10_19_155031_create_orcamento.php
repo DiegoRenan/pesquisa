@@ -21,7 +21,7 @@ class CreateOrcamento extends Migration {
 			$table->string('obrasInstalacoes', 150);
 			$table->string('equipamentoMaterial', 150);
 			$table->unsignedInteger('projeto_id');
-			$table->foreign('projeto_id')->references('idProjeto')->on('PROJ_projetos');
+			$table->foreign('projeto_id')->references('idProjeto')->on('PROJ_projetos')->onDelete('CASCADE');
 		});
 	}
 

@@ -1,6 +1,11 @@
 /**
  * Created by vinicius on 07/10/15.
  */
+
+/*jQuery('textarea.publicacao').summernote({height: 300});*/
+
+Vue.http.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content');
+
 var app = new Vue({
     el: "#app",
 
@@ -9,11 +14,12 @@ var app = new Vue({
         projeto: '',
         membro: {
             data: {
+                idMembro: '',
                 nome: '',
                 cpf: '',
-                titulacao: '',
+                titulacao_id: '',
                 instituicao: '',
-                categoria: '',
+                categoria_id: '',
                 cargaHoraria: ''
             },
             exibir: false
@@ -25,6 +31,15 @@ var app = new Vue({
     },
 
     methods: {
+
+        doPost: function() {
+            jQuery('.modal').modal('toggle');
+            var self = this;
+            self.$http.post('/researcher/project/api/save', self.projeto, function(data){
+                this.$set('projeto', data);
+                jQuery('.modal').modal('toggle');
+            });
+        },
 
         doClean: function() {
             jQuery(this.$$.nomeAtividade).val('');
@@ -45,9 +60,9 @@ var app = new Vue({
         addAtividade: function(ev) {
             ev.preventDefault();
             var self = this, qt = 0, aux = '', j = 1;
-            var auxD = self.projeto.enquadramento.duracao;
-            var auxA =  moment(self.projeto.enquadramento.dataInicio).get('year');
-            var i =  moment(self.projeto.enquadramento.dataInicio).get('month')+1;
+            var auxD = self.projeto.projetoDatas.duracao;
+            var auxA =  moment(self.projeto.projetoDatas.dataInicio).get('year');
+            var i =  moment(self.projeto.projetoDatas.dataInicio).get('month')+1;
             var nome = self.$$.nomeAtividade.value;
             self.atividade.nome = nome;
             while(j <= auxD) {
@@ -74,6 +89,10 @@ var app = new Vue({
 
         createFormCronograma: function(ev, di, du) {
             var mes = new Array('AA','jan','fev','mar','abr','mai','jun','jul','ago','set','out', 'nov', 'dez');
+
+            if(di == '' || du == '')
+                return;
+
             var dataInicial = moment(di);
             var dataAux = moment(di);
             var duracao = du;
@@ -110,18 +129,16 @@ var app = new Vue({
             var self = this;
             var cpf = self.$$.cpf;
             if(cpf.value.length == 14) {
-                //Executar busca no bd
-                var data = null;
-                if(!data) {
-                    self.membro.data.nome = 'Não Encontrado';
-                    self.membro.data.cpf = cpf.value;
-                    self.membro.data.titulacao = '';
-                    self.membro.data.instituicao = '';
-                    self.membro.data.categoria = '';
-                    self.membro.data.cargaHoraria = '';
-                    self.membro.$set('exibir', true);
+                self.$http.post('/researcher/project/api/membro/search', {'cpf': cpf.value}, function(data){
+                    self.$set('membro', data);
                     cpf.value = '';
-                }
+                    if(data.data.nome != '') {
+                        jQuery(self.$$.membroNome).prop('readonly', true);
+                        jQuery(self.$$.membroInstituicao).prop('readonly', true);
+                        jQuery(self.$$.membroTitulo).prop('disabled', true);
+                        jQuery(self.$$.membroCategoria).prop('disabled', true);
+                    }
+                });
             }
             else {
                 console.log('CPF inválido');
@@ -134,21 +151,38 @@ var app = new Vue({
 
         addMembro: function(ev) {
             ev.preventDefault();
-            this.projeto.membros.push({
-                nome: this.membro.data.nome,
-                cpf: this.membro.data.cpf,
-                titulacao: this.membro.data.titulacao,
-                instituicao: this.membro.data.instituicao,
-                categoria: this.membro.data.categoria,
-                cargaHoraria: this.membro.data.cargaHoraria
-            });
+            var self = this;
+            if(self.membro.data.idMembro == '') {
+                var member = {
+                    nome_membro: self.membro.data.nome,
+                    cpf: self.membro.data.cpf,
+                    instituicao: self.membro.data.instituicao,
+                    titulacao_id: self.membro.data.titulacao_id,
+                    categoria_id: self.membro.data.categoria_id
+                }
+                self.$http.post('/researcher/project/api/membro/save', member, function(data){
+                    self.membro.data.idMembro = data.data.idMembro;
+                    //console.log(data.data.idMembro);
+                });
+            }
+            self.projeto.membros.push(jQuery.extend({}, self.membro.data));
+            self.clearMembro(ev);
+        },
+
+        clearMembro: function(ev) {
+            ev.preventDefault();
             this.membro.exibir = false;
+            this.membro.data.idMembro = '';
             this.membro.data.nome = '';
             this.membro.data.cpf = '';
-            this.membro.data.titulacao = '';
+            this.membro.data.titulacao_id = '';
             this.membro.data.instituicao = '';
-            this.membro.data.categoria = '';
+            this.membro.data.categoria_id = '';
             this.membro.data.cargaHoraria = '';
+            jQuery(this.$$.membroNome).removeProp('readonly');
+            jQuery(this.$$.membroInstituicao).removeProp('readonly');
+            jQuery(this.$$.membroTitulo).removeProp('disabled');
+            jQuery(this.$$.membroCategoria).removeProp('disabled');
         },
 
         doNext: function(ev, form) {
@@ -158,9 +192,9 @@ var app = new Vue({
 
     ready: function() {
         jQuery('.modal').modal('toggle');
-        this.$http.get('/researcher/projetc/api/dados', function(data){
+        this.$http.get('/researcher/project/api/dados', function(data){
             this.$set('projeto', data)
-            this.createFormCronograma(null, this.projeto.enquadramento.dataInicio, this.projeto.enquadramento.duracao);
+            this.createFormCronograma(null, this.projeto.projetoDatas.dataInicio, this.projeto.projetoDatas.duracao);
             jQuery('.modal').modal('toggle');
         });
     },

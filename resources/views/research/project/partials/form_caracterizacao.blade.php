@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12">
             {!! Form::label('caracterizacao', 'Caracterização do Problema') !!}
-            {!! Form::textarea('caracterizacao', null, ['class' => 'publicacao form-control', 'v-model' => 'projeto.caracterizacao']) !!}
+            {!! Form::textarea('caracterizacao', null, ['class' => 'publicacao form-control', 'v-model' => 'projeto.projeto.caracterizacao']) !!}
         </div>
     </div>
     <div class="row">
