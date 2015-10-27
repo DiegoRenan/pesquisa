@@ -37,7 +37,7 @@
                 </div>
                 {!! Form::close() !!}
             @else
-                {!! Form::model($grupoUp, ['method' => 'PUT', 'route' => ['researcher.grupopesquisa.update', $grupoUp->id]]) !!}
+                {!! Form::model($grupoUp, ['method' => 'PUT', 'route' => ['researcher.grupopesquisa.update', $grupoUp->idGrupoPesquisa]]) !!}
                 <div class="form-group">
                     {!! Form::label('name', 'Editar Grupo de Pesquisa') !!}
                     <div class="row">
@@ -75,10 +75,10 @@
                                                 {{ $grupo->name }}
                                             </td>
                                             <td>
-                                                <a class="btn btn-success" href="{{ route('researcher.grupopesquisa.edit', $grupo->id) }}" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                                                <a class="btn btn-success" href="{{ route('researcher.grupopesquisa.edit', $grupo->idGrupoPesquisa) }}" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
                                             </td>
                                             <td>
-                                                {!! Form::open(['route' => ['researcher.grupopesquisa.destroy', $grupo->id], 'method' => 'DELETE']) !!}
+                                                {!! Form::open(['route' => ['researcher.grupopesquisa.destroy', $grupo->idGrupoPesquisa], 'method' => 'DELETE']) !!}
                                                 <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#removerModal" data-title="Remover grupo de pesquisa: {{ $grupo->name }}" data-message="Você tem certeza que quer remover este grupo?" title="Remover Grupo de Pesquisa: {{ $grupo->name }}">
                                                     <span class="glyphicon glyphicon-trash"></span>
                                                 </button>

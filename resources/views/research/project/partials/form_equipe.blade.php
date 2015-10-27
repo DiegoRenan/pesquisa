@@ -102,7 +102,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="cargaHoraria">Carga Horária</label>
-                        <input type="text" name="cargaHoraria" required="required" class="form-control" v-model="membro.data.cargaHoraria"/>
+                        <input type="text" name="cargaHoraria" required="required" class="form-control" v-el="membroCargaH" v-model="membro.data.cargaHoraria"/>
                     </div>
                 </div>
             </div>

@@ -69,9 +69,9 @@ class Pesquisador extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function grupo_pesquisa()
+    public function grupoPesquisa()
     {
-        return $this->belongsToMany('App\Research\GrupoPesquisa');
+        return $this->belongsToMany('App\Research\GrupoPesquisa', 'pesquisador_has_grupo_pesquisa', 'pesquisador_id', 'grupoPesquisa_id');
     }
 
     public function projeto()

@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Research;
 
+use App\Gestao\Pesquisador;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +16,8 @@ class GrupoPesquisaController extends Controller {
 	 */
 	public function index()
 	{
-		$grupos = GrupoPesquisa::orderBy('name', 'asc')->get();
+        $grupos = Pesquisador::find(1)->grupoPesquisa()->orderBy('name', 'asc')->get();
+
         return view('research.grupo_pesquisa', compact('grupos'));
 	}
 
@@ -40,7 +42,9 @@ class GrupoPesquisaController extends Controller {
             'name' => 'required'
         ]);
 
-        GrupoPesquisa::create($request->all());
+        $novoGrupo = GrupoPesquisa::create($request->all());
+
+        Pesquisador::find(1)->grupoPesquisa()->attach($novoGrupo->idGrupoPesquisa);
 
         return redirect(route('researcher.grupopesquisa.index'))->with([
             'flash_type_message' => 'alert-success',
@@ -106,7 +110,7 @@ class GrupoPesquisaController extends Controller {
 	{
         $grupo = GrupoPesquisa::findOrFail($id);
 
-        $grupo->delete();
+        Pesquisador::find(1)->grupoPesquisa()->detach($grupo->idGrupoPesquisa);
 
         return redirect(route('researcher.grupopesquisa.index'))->with([
             'flash_type_message' => 'alert-success',

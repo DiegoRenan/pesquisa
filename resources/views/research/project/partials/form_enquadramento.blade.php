@@ -1,3 +1,33 @@
+<!-- Novo Grupo Pesquisa -->
+<div class="modal fade" id="newGroup" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="glyphicon glyphicon-edit"></i> Cadastrar Grupo de Pesquisa</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" v-show="novoGrupo.error">
+                    Erro ao Cadastrar novo Grupo de Pesquisa
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="form-group">
+                    <label for="name">Novo Grupo de Pesquisa</label>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input valeu="{{ old('name') }}" type="text" name="name" class="form-control" required v-model="novoGrupo.name"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" v-on="click:addGrupoPesquisa"><span class="glyphicon glyphicon-save"></span> Adicionar Grupo</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" v-on="click:cancelGrupoPesquisa"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Novo Grupo Pesquisa -->
+
 <div class="form-group">
     {!! Form::label('titulo', 'Título Projeto') !!}
     {!! Form::text('titulo', null, ['class' => 'form-control', 'v-model' => 'projeto.projeto.titulo']) !!}
@@ -44,10 +74,13 @@
             {!! Form::label('grupoPessquisa', 'Grupo de Pesquisa no DGP/CNPq') !!}
             <div class="row">
                 <div class="col-sm-9">
-                    {!! Form::select('grupoPesquisa', [], null, ['class' => 'form-control', 'v-model' => 'projeto.projeto.grupoPesquisa_id']) !!}
+                    <select name="grupoPesquisa" class="form-control" v-model="projeto.projeto.grupoPesquisa_id">
+                        <option value="1">Nenhum</option>
+                        <option v-repeat="gruposPesquisa" value="@{{ idGrupoPesquisa }}">@{{ name }}</option>
+                    </select>
                 </div>
                 <div class="col-sm-3">
-                    <buttom class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-plus"></i> Novo Grupo</buttom>
+                    <buttom class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newGroup"><i class="glyphicon glyphicon-plus"></i> Novo Grupo</buttom>
                 </div>
             </div>
         </div>
@@ -85,14 +118,14 @@
 
 <div class="row">
     <div class="col-sm-5">
-        <a class="btn btn-default" href="#div1"><i class="glyphicon glyphicon-chevron-left"> Voltar</i></a>
+        <a class="btn btn-default btn-sm" href="#div1"><i class="glyphicon glyphicon-chevron-left"> Voltar</i></a>
     </div>
 
     <div class="col-sm-5">
-        <buttom type="submit" class="btn btn-success" v-on="click:doPost"><i class="glyphicon glyphicon-save"></i> Salvar</buttom>
+        <buttom type="submit" class="btn btn-success btn-sm" v-on="click:doPost"><i class="glyphicon glyphicon-save"></i> Salvar</buttom>
     </div>
 
     <div class="col-sm-2 text-right">
-        <a class="btn btn-default" href="#div3">Avançar <i class="glyphicon glyphicon-chevron-right"></i></a>
+        <a class="btn btn-default btn-sm" href="#div3">Avançar <i class="glyphicon glyphicon-chevron-right"></i></a>
     </div>
 </div>

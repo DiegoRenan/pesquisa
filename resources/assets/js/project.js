@@ -2,6 +2,21 @@
  * Created by vinicius on 07/10/15.
  */
 
+$('#removerModal').on('show.bs.modal', function (e) {
+    $message = $(e.relatedTarget).attr('data-message');
+    $(this).find('.modal-body p').text($message);
+    $title = $(e.relatedTarget).attr('data-title');
+    $(this).find('.modal-title').text($title);
+
+    /* Pass form reference to modal for submission on yes/ok */
+    var form = $(e.relatedTarget).closest('form');
+    $(this).find('.modal-footer #confirm').data('form', form);
+});
+/* Form confirm (yes/ok) handler, submits form */
+$('#removerModal').find('.modal-footer #confirm').on('click', function(){
+    $(this).data('form').submit();
+});
+
 /*jQuery('textarea.publicacao').summernote({height: 300});*/
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content');
@@ -27,17 +42,22 @@ var app = new Vue({
         atividade: {
             nome: '',
             anos: []
+        },
+        gruposPesquisa: [],
+        novoGrupo: {
+            name: '',
+            error: false
         }
     },
 
     methods: {
 
         doPost: function() {
-            jQuery('.modal').modal('toggle');
+            jQuery('#loading').modal('toggle');
             var self = this;
             self.$http.post('/researcher/project/api/save', self.projeto, function(data){
                 this.$set('projeto', data);
-                jQuery('.modal').modal('toggle');
+                jQuery('#loading').modal('toggle');
             });
         },
 
@@ -137,6 +157,7 @@ var app = new Vue({
                         jQuery(self.$$.membroInstituicao).prop('readonly', true);
                         jQuery(self.$$.membroTitulo).prop('disabled', true);
                         jQuery(self.$$.membroCategoria).prop('disabled', true);
+                        jQuery(self.$$.membroCargaH).focus();
                     }
                 });
             }
@@ -187,15 +208,44 @@ var app = new Vue({
 
         doNext: function(ev, form) {
             this.$set('form', form);
+        },
+
+        getGruposPesquisa: function() {
+            var self = this;
+            self.$http.get('/researcher/project/api/groups', function(data){
+                self.$set('gruposPesquisa', data);
+            });
+        },
+
+        addGrupoPesquisa: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            self.$http.post('/researcher/grupopesquisa', self.novoGrupo, function(){
+                self.getGruposPesquisa();
+                self.novoGrupo.$set('error', false);
+                self.novoGrupo.$set('name', '');
+                jQuery('#newGroup').modal('toggle');
+            }).error(function(){
+                self.novoGrupo.$set('error', true);
+            });
+        },
+
+        cancelGrupoPesquisa: function() {
+            var self = this;
+            self.novoGrupo.$set('error', false);
+            self.novoGrupo.$set('name', '');
+            jQuery('#newGroup').modal('toggle');
         }
     },
 
     ready: function() {
-        jQuery('.modal').modal('toggle');
-        this.$http.get('/researcher/project/api/dados', function(data){
-            this.$set('projeto', data)
-            this.createFormCronograma(null, this.projeto.projetoDatas.dataInicio, this.projeto.projetoDatas.duracao);
-            jQuery('.modal').modal('toggle');
+        var self = this;
+        jQuery('#loading').modal('toggle');
+        self.$http.get('/researcher/project/api/dados', function(data){
+            self.$set('projeto', data)
+            self.createFormCronograma(null, self.projeto.projetoDatas.dataInicio, self.projeto.projetoDatas.duracao);
+            self.getGruposPesquisa();
+            jQuery('#loading').modal('toggle');
         });
     },
 

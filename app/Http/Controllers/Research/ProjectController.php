@@ -3,11 +3,13 @@
 use App\Gestao\Membro;
 use App\Gestao\Orcamento;
 use App\Gestao\PalavrasChave;
+use App\Gestao\Pesquisador;
 use App\Gestao\Projeto;
 use App\Gestao\ProjetoDatas;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Research\GrupoPesquisa;
 use App\Stuff\AreaCnpq;
 use App\Stuff\CategoriaPesquisador;
 use App\Stuff\SubAreaCnpq;
@@ -38,7 +40,7 @@ class ProjectController extends Controller {
 
     public function getDados()
     {
-    	sleep(5);
+    	//sleep(5);
     	$json = [
                 'idProjeto' => null,
 	            'dadosPessoais' => [
@@ -224,5 +226,10 @@ class ProjectController extends Controller {
                 ],
                 'exibir' => false
             ];
+    }
+
+    public function getGruposPesquisa()
+    {
+        return $grupos = Pesquisador::find(1)->grupoPesquisa;
     }
 }

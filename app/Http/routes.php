@@ -155,6 +155,7 @@ Route::group(['prefix' => 'researcher', 'namespace' => 'Research'], function()
             Route::post('/api/save', ['as' => 'project.saveDados', 'uses' => 'ProjectController@saveDados']);
             Route::post('/api/membro/search', ['as' => 'project.searchMembro', 'uses' => 'ProjectController@searchMembro']);
             Route::post('/api/membro/save', ['as' => 'project.addMembro', 'uses' => 'ProjectController@addMembro']);
+            Route::get('/api/groups', ['as' => 'project.getGruposPesquisa', 'uses' => 'ProjectController@getGruposPesquisa']);
         });
 
     });
