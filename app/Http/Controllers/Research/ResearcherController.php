@@ -228,4 +228,12 @@ class ResearcherController extends Controller {
     {
         return Titulacao::all()->orderBy('name', 'asc')->get()->toArry();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getGruposPesquisa()
+    {
+        return $grupos = Pesquisador::find(1)->grupoPesquisa;
+    }
 }

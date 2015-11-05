@@ -28,6 +28,66 @@
 </div>
 <!-- Novo Grupo Pesquisa -->
 
+<!-- Novo Convenio -->
+<div class="modal fade" id="newConvenio" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="glyphicon glyphicon-edit"></i> Cadastrar Convenio</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" v-show="novoConvenio.error">
+                    Erro ao Cadastrar novo Convenio
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="form-group">
+                    <label for="name">Novo Convenio</label>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input valeu="{{ old('nome') }}" type="text" name="name" class="form-control" required v-model="novoConvenio.nome"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" v-on="click:addConvenio"><span class="glyphicon glyphicon-save"></span> Adicionar Convenio</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" v-on="click:cancelConvenio"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Novo Convenio -->
+
+<!-- Novo Financiador -->
+<div class="modal fade" id="newFinanciador" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="glyphicon glyphicon-edit"></i> Cadastrar Financiador</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" v-show="novoFinanciador.error">
+                    Erro ao Cadastrar novo Financiador
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="form-group">
+                    <label for="name">Novo Financiador</label>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input valeu="{{ old('nome') }}" type="text" name="name" class="form-control" required v-model="novoFinanciador.nome"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" v-on="click:addFinanciador"><span class="glyphicon glyphicon-save"></span> Adicionar Financiador</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" v-on="click:cancelFinanciador"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Novo Financiador -->
+
 <div class="form-group">
     {!! Form::label('titulo', 'Título Projeto') !!}
     {!! Form::text('titulo', null, ['class' => 'form-control', 'v-model' => 'projeto.projeto.titulo']) !!}
@@ -49,12 +109,31 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-6">
-            {!! Form::label('convenio', 'Algum Convenio? Qual?') !!}
-            {!! Form::text('convenio', null, ['class' => 'form-control', 'v-model' => 'projeto.projeto.convenio_id']) !!}
+            <label for="convenio">Algum Convenio? Qual?</label>
+            <div class="row">
+                <div class="col-sm-9">
+                    <select name="convenio" class="form-control" v-model="projeto.projeto.convenio_id">
+                        <option v-repeat="convenios" value="@{{ idConvenio }}">@{{ nome }}</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <buttom class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newConvenio"><i class="glyphicon glyphicon-plus"></i> Convênio</buttom>
+                </div>
+            </div>
         </div>
+
         <div class="col-sm-6">
-            {!! Form::label('financiador', 'Possui algum tipo de financiamento? Qual?') !!}
-            {!! Form::text('financiador', null, ['class' => 'form-control', 'v-model' => 'projeto.projeto.financiador_id']) !!}
+            <label for="financiador">Possui algum tipo de financiamento? Qual?</label>
+            <div class="row">
+                <div class="col-sm-9">
+                    <select name="financiador" class="form-control" v-model="projeto.projeto.financiador_id">
+                        <option v-repeat="financiadores" value="@{{ idFinanciador }}">@{{ nome }}</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <buttom class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newFinanciador"><i class="glyphicon glyphicon-plus"></i> Financiador</buttom>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -66,12 +145,12 @@
             {!! Form::select('area', $area, null, ['class' => 'form-control', 'v-model' => 'projeto.projeto.area_id']) !!}
         </div>
         <div class="col-sm-3">
-            {!! Form::label('subArea', 'Sub-Área de Conhecimento') !!}
+            {!! Form::label('subArea', 'Subarea de Conhecimento') !!}
             {!! Form::select('subArea', $subArea, null, ['class' => 'form-control', 'v-model' => 'projeto.projeto.subAreaConhecimento_id']) !!}
         </div>
 
         <div class="col-sm-6">
-            {!! Form::label('grupoPessquisa', 'Grupo de Pesquisa no DGP/CNPq') !!}
+            <label for="grupoPessquisa">Grupo de Pesquisa no DGP/CNPq</label>
             <div class="row">
                 <div class="col-sm-9">
                     <select name="grupoPesquisa" class="form-control" v-model="projeto.projeto.grupoPesquisa_id">

@@ -126,10 +126,10 @@
     </div>
 
     <div class="col-sm-5">
-        <buttom type="submit" class="btn btn-success"><i class="glyphicon glyphicon-save"></i> Salvar</buttom>
+        <buttom type="submit" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-save"></i> Salvar</buttom>
     </div>
 
     <div class="col-sm-2 text-right">
-        <a class="btn btn-default" href="#div2">Avançar <i class="glyphicon glyphicon-chevron-right"></i></a>
+        <a class="btn btn-default btn-sm" href="#div2">Avançar <i class="glyphicon glyphicon-chevron-right"></i></a>
     </div>
 </div>

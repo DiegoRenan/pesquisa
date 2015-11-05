@@ -71,4 +71,9 @@ class Projeto extends Model {
     {
         return $this->hasOne('App\Gestao\Orcamento');
     }
+
+    public function cronograma()
+    {
+        return $this->hasMany('App\Gestao\Cronograma');
+    }
 }

@@ -4,7 +4,7 @@
 		@foreach($content as $key => $item)
 			<div>
 				<p>
-					<a href="{{ $item->present()->link }}"><small><i class="{{ $item->present()->flagTipo }}"></i> {{ strtoupper($item->title) }}</small></a>
+					<a href="{{ $item->present()->link }}"><small><i class="{{ $item->present()->flagTipo }}"></i> {{ strtoupper($item->title) }}</small></a><br/>
 					<small class="text-muted"><i class="fa fa-clock-o"></i> Publicado por {{ $item->present()->publicadoCompleto }}</small>
 				</p>
 			</div>

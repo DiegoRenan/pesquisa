@@ -47,6 +47,17 @@ var app = new Vue({
         novoGrupo: {
             name: '',
             error: false
+        },
+        subAreas: [],
+        convenios: [],
+        novoConvenio: {
+            nome: '',
+            error: false
+        },
+        financiadores: [],
+        novoFinanciador: {
+            nome: '',
+            error: false
         }
     },
 
@@ -235,6 +246,60 @@ var app = new Vue({
             self.novoGrupo.$set('error', false);
             self.novoGrupo.$set('name', '');
             jQuery('#newGroup').modal('toggle');
+        },
+
+        addFinanciador: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            self.$http.post('/researcher/project/api/financiador', self.novoFinanciador, function(){
+                self.getFinanciadores();
+                self.novoFinanciador.$set('error', false);
+                self.novoFinanciador.$set('nome', '');
+                jQuery('#newFinanciador').modal('toggle');
+            }).error(function(){
+                self.novoFinanciador.$set('error', true);
+            });
+        },
+
+        cancelFinanciador: function() {
+            var self = this;
+            self.novoFinanciador.$set('error', false);
+            self.novoFinanciador.$set('nome', '');
+            jQuery('#newFinanciador').modal('toggle');
+        },
+
+        getFinanciadores: function() {
+            var self = this;
+            self.$http.get('/researcher/project/api/financiadores', function(data){
+                self.$set('financiadores', data);
+            });
+        },
+
+        addConvenio: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            self.$http.post('/researcher/project/api/convenio', self.novoConvenio, function(){
+                self.getConvenios();
+                self.novoConvenio.$set('error', false);
+                self.novoConvenio.$set('nome', '');
+                jQuery('#newConvenio').modal('toggle');
+            }).error(function(){
+                self.novoConvenio.$set('error', true);
+            });
+        },
+
+        cancelConvenio: function() {
+            var self = this;
+            self.novoConvenio.$set('error', false);
+            self.novoConvenio.$set('nome', '');
+            jQuery('#newConvenio').modal('toggle');
+        },
+
+        getConvenios: function() {
+            var self = this;
+            self.$http.get('/researcher/project/api/convenios', function(data){
+                self.$set('convenios', data);
+            });
         }
     },
 
@@ -245,6 +310,8 @@ var app = new Vue({
             self.$set('projeto', data)
             self.createFormCronograma(null, self.projeto.projetoDatas.dataInicio, self.projeto.projetoDatas.duracao);
             self.getGruposPesquisa();
+            self.getConvenios();
+            self.getFinanciadores();
             jQuery('#loading').modal('toggle');
         });
     },

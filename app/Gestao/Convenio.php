@@ -8,7 +8,7 @@ class Convenio extends Model {
 
     protected $primaryKey = 'idConvenio';
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = ['nome'];
 

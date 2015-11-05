@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers\Research;
 
+use App\Gestao\Convenio;
+use App\Gestao\Cronograma;
+use App\Gestao\CronogramaAno;
 use App\Gestao\Membro;
 use App\Gestao\Orcamento;
 use App\Gestao\PalavrasChave;
@@ -20,7 +23,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller {
 
-	public function create()
+	/*
+	 * REFATORAR
+	*/
+
+    public function create()
     {
         $titles = Titulacao::orderBy('name', 'asc')->lists('name', 'id');
 
@@ -75,10 +82,10 @@ class ProjectController extends Controller {
 	            'projeto' => [
 	                'titulo' => '',
                     'descricao' => '',
-                    'caracterizacao' => "",
+                    'caracterizacao' => '',
                     'objetivos' => "",
-                    'metodologia' => "",
-                    'referencias' => "",
+                    'metodologia' => '',
+                    'referencias' => '',
 	                'convenio_id' => '',
 	                'financiador_id' => '',
 	                'area_id' => '',
@@ -88,7 +95,7 @@ class ProjectController extends Controller {
 	            ],
 	            'projetoDatas' => [
                     'dataInicio' => Carbon::now()->format('Y-m-d'),
-                    'duracao' => '6',
+                    'duracao' => '24',
                 ],
                 'palavrasChave' => [
                     'palavra1' => '',
@@ -148,17 +155,29 @@ class ProjectController extends Controller {
             }
 
             /* Salvando Membros */
-            $members = [];
-            foreach($membros as $mb) {
-                $members[$mb['idMembro']] = array('cargaHoraria' => $mb['cargaHoraria']);
+            if(count($membros) > 0) {
+                $members = [];
+                foreach($membros as $mb) {
+                    $members[$mb['idMembro']] = array('cargaHoraria' => $mb['cargaHoraria']);
+                }
+                $proj->membros()->sync($members);
             }
-            $proj->membros()->sync($members);
 
             /* Salvando Orcamento */
             $orc = new Orcamento($orcamento);
             $proj->orcamento()->save($orc);
 
             /* Salvando Cronograma */
+            foreach($cronograma as $cr) {
+                $at = new Cronograma(['atividade' => $cr['nome']]);
+                $proj->cronograma()->save($at);
+
+                foreach($cr['anos'] as $anos) {
+                    $anoMeses = $anos['ano'].''.$anos['meses'];
+                    $at->atividade()->save(new CronogramaAno(['anoMeses' => $anoMeses]));
+                }
+            }
+
             /* Salvando Anexos */
 
         }
@@ -166,70 +185,13 @@ class ProjectController extends Controller {
         return response()->json($json);
     }
 
-    public function searchMembro(Request $request)
+    public function getSubAreas()
     {
-        $membro = Membro::where('cpf', 'like', $request->cpf)->first();
-        if(($membro)) {
-            return
-                [
-                    'data'  => [
-                        'idMembro' => $membro->idMembro,
-                        'nome' => $membro->nome_membro,
-                        'cpf' => $membro->cpf,
-                        'instituicao' => $membro->instituicao,
-                        'titulacao_id' => $membro->titulacao_id,
-                        'categoria_id' => $membro->categoria_id,
-                        'cargaHoraria' => ''
-                    ],
-                    'exibir' => true
-                ];
-        }
-        else {
-            return
-                [
-                    'data'  => [
-                        'idMembro' => '',
-                        'nome' => '',
-                        'cpf' => $request->cpf,
-                        'instituicao' => '',
-                        'titulacao' => '',
-                        'categoria' => '',
-                        'cargaHoraria' => ''
-                    ],
-                    'exibir' => true
-                ];
-        }
+        return $subArea = SubAreaCnpq::all();
     }
 
-    public function addMembro(Request $request)
+    public function getConvenios()
     {
-        $this->validate($request,[
-            'nome_membro' => 'required|max:50',
-            'cpf' => 'required|unique:PROJ_membros|max:16',
-            'instituicao' => 'required|max:150',
-            'titulacao_id' => 'exists:titulacaos,id',
-            'categoria_id' => 'exists:categorias,id'
-        ]);
-
-        $membro = Membro::create($request->all());
-
-        return
-            [
-                'data'  => [
-                    'idMembro' => $membro->idMembro,
-                    'nome' => $membro->nome_membro,
-                    'cpf' => $membro->cpf,
-                    'instituicao' => $membro->instituicao,
-                    'titulacao_id' => $membro->titulacao_id,
-                    'categoria_id' => $membro->categoria_id,
-                    'cargaHoraria' => ''
-                ],
-                'exibir' => false
-            ];
-    }
-
-    public function getGruposPesquisa()
-    {
-        return $grupos = Pesquisador::find(1)->grupoPesquisa;
+        return Convenio::all();
     }
 }

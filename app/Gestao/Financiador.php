@@ -8,7 +8,7 @@ class Financiador extends Model {
 
     protected $primaryKey = 'idFinanciador';
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = ['nome'];
 

@@ -153,11 +153,21 @@ Route::group(['prefix' => 'researcher', 'namespace' => 'Research'], function()
             Route::get('/create', ['as' => 'project.create', 'uses' => 'ProjectController@create']);
             Route::get('/api/dados', ['as' => 'project.getDados', 'uses' => 'ProjectController@getDados']);
             Route::post('/api/save', ['as' => 'project.saveDados', 'uses' => 'ProjectController@saveDados']);
-            Route::post('/api/membro/search', ['as' => 'project.searchMembro', 'uses' => 'ProjectController@searchMembro']);
-            Route::post('/api/membro/save', ['as' => 'project.addMembro', 'uses' => 'ProjectController@addMembro']);
-            Route::get('/api/groups', ['as' => 'project.getGruposPesquisa', 'uses' => 'ProjectController@getGruposPesquisa']);
-        });
 
+            Route::post('/api/membro/search', ['as' => 'member.search', 'uses' => 'MemberController@show']);
+            Route::post('/api/membro/save', ['as' => 'member.store', 'uses' => 'MemberController@store']);
+
+            Route::get('/api/groups', ['as' => 'project.getGruposPesquisa', 'uses' => 'ResearcherController@getGruposPesquisa']);
+
+            Route::get('/api/convenios', ['as' => 'convenios.show', 'uses' => 'ConvenioController@show']);
+            Route::post('/api/convenio', ['as' => 'convenios.store', 'uses' => 'ConvenioController@store']);
+
+            Route::get('/api/financiadores', ['as' => 'financiador.show', 'uses' => 'FinanciadorController@show']);
+            Route::post('/api/financiador', ['as' => 'financiador.store', 'uses' => 'FinanciadorController@store']);
+
+
+            Route::get('/api/subareas/show', ['as' => 'subAreasCnpq.show', 'uses' => 'ProjectController@getSubAreas']);
+        });
     });
 
     /* encontrar institutos */
