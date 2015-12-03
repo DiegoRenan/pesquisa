@@ -42,6 +42,9 @@ elixir(function(mix) {
 
 /*for researcher dashboard======================================================================================================*/
     mix.copy('resources/assets/js/project.js', 'public/assets/js/project.js');
+    /*mix.copy('node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js', 'public/assets/js/jquery.ui.widget.js');
+    mix.copy('node_modules/blueimp-file-upload/js/jquery.fileupload.js', 'public/assets/js/jquery.fileupload.js');
+    mix.copy('node_modules/blueimp-file-upload/css/jquery.fileupload.css', 'public/assets/css/jquery.fileupload.css');*/
     mix.styles([
         'dashboard.css',
     ], 'public/assets/css/dashboard.css');

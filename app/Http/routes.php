@@ -151,8 +151,12 @@ Route::group(['prefix' => 'researcher', 'namespace' => 'Research'], function()
         Route::group(['prefix' => 'project'], function()
         {
             Route::get('/create', ['as' => 'project.create', 'uses' => 'ProjectController@create']);
-            Route::get('/api/dados', ['as' => 'project.getDados', 'uses' => 'ProjectController@getDados']);
+            Route::get('/{id}/edit', ['as' => 'project.edit', 'uses' => 'ProjectController@edit']);
+            Route::get('/api/dados/{id?}', ['as' => 'project.getDados', 'uses' => 'ProjectController@getDados']);
             Route::post('/api/save', ['as' => 'project.saveDados', 'uses' => 'ProjectController@saveDados']);
+
+            Route::post('/api/anexos/upload', ['as' => 'project.anexosUpload', 'uses' => 'ProjectController@anexosUpload']);
+            Route::delete('/api/anexos/{id}', ['as' => 'project.anexosDelete', 'uses' => 'ProjectController@anexosDelete']);
 
             Route::post('/api/membro/search', ['as' => 'member.search', 'uses' => 'MemberController@show']);
             Route::post('/api/membro/save', ['as' => 'member.store', 'uses' => 'MemberController@store']);

@@ -1,14 +1,26 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-12">
+            <div class="well">
+                <h4>Anexos mais comuns</h4>
+                <ul>
+                    <li>Comitê de ética</li>
+                    <li>Declaração de Recursos</li>
+                    <li>Convênios / Financiamentos</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <!-- Inicio -->
             <div class="panel-body">
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
-                    <span>Selecionar arquivos...</span>
+                    <span>Selecionar arquivo...</span>
                     <!-- The file input field used as target for the file upload widget -->
-                    <input id="fileupload" type="file" name="documento" data-token="{!! csrf_token() !!}" data-user-id="{{ Auth::user()->id }}">
+                    <input id="fileupload" type="file" name="documento" data-user-id="1" v-on="click:addAnexo">
                 </span>
                 <br>
                 <br>
@@ -32,10 +44,10 @@
                         <tr v-repeat="file:projeto.anexos">
                             <td>@{{ file.nome }}</td>
                             <td class="text-center">
-                                <a href="#@{{ file.id }}" class="btn btn-success" title="Fazer download do arquivo: @{{ file.nome }}"><i class="glyphicon glyphicon-download"></i></a>
+                                <a href="#@{{ file.idAnexo }}" class="btn btn-success" title="Fazer download do arquivo: @{{ file.nome }}"><i class="glyphicon glyphicon-download"></i></a>
                             </td>
                             <td class="text-center">
-                                <a href="#@{{ file.id }}" class="btn btn-danger" title="Remover o arquivo: @{{ file.nome }}"><i class="glyphicon glyphicon-trash"></i></a>
+                                <a href="#@{{ file.idAnexo }}" class="btn btn-danger" title="Remover o arquivo: @{{ file.nome }}" v-on="click:remAnexo($event, $index)"><i class="glyphicon glyphicon-trash"></i></a>
                             </td>
                         </tr>
                     </tbody>

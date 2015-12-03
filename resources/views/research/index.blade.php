@@ -9,6 +9,7 @@
 
     <link href="{{ asset('/assets/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/dashboard.css') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/jquery.fileupload.css') }}" rel="stylesheet">
 
 </head>
 <body>
@@ -58,6 +59,8 @@
 </div>
 
 <script src="{{ asset('/assets/js/app.js') }}"></script>
+<script src="{{ asset('/assets/js/jquery.ui.widget.js') }}"></script>
+<script src="{{ asset('/assets/js/jquery.fileupload.js') }}"></script>
 <script src="{{ asset('/assets/js/project.js') }}"></script>
 
 </body>

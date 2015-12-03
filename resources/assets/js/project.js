@@ -17,7 +17,7 @@ $('#removerModal').find('.modal-footer #confirm').on('click', function(){
     $(this).data('form').submit();
 });
 
-/*jQuery('textarea.publicacao').summernote({height: 300});*/
+//jQuery('textarea.publicacao').summernote({height: 300});
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content');
 
@@ -58,16 +58,24 @@ var app = new Vue({
         novoFinanciador: {
             nome: '',
             error: false
-        }
+        },
+        response: {'show': false,"error": false, "msg":[]}
     },
 
     methods: {
 
         doPost: function() {
             jQuery('#loading').modal('toggle');
+
             var self = this;
+
             self.$http.post('/researcher/project/api/save', self.projeto, function(data){
-                this.$set('projeto', data);
+                self.alerta(false, {'msg': ['Projeto salvo com sucesso!']});
+                window.location.pathname = '/researcher/project/'+data.idProjeto+'/edit';
+                jQuery('#loading').modal('toggle');
+
+            }).error(function(data) {
+                self.alerta(true, data);
                 jQuery('#loading').modal('toggle');
             });
         },
@@ -130,11 +138,13 @@ var app = new Vue({
 
             var self = this, y, m, texto, aux = true, i = 1;
 
-            dataFinal = moment(dataInicial).add(duracao, 'months');
+            var dataFinal = moment(dataInicial).add(duracao, 'months');
 
             divMeses = self.$$.meses;
 
             jQuery(divMeses).empty();
+
+
 
             while(aux) {
                 y = dataAux.get('year');
@@ -145,7 +155,7 @@ var app = new Vue({
                     texto += '<td><b>'+m+'</b><br/><input type="checkbox" name="'+y+'_'+m+'" id="ck-'+i+'"/><br/>Mês '+i+'</td>';
                     dataAux.add(1, 'month');
                     i++;
-                    if(dataFinal.isSame(dataAux)) {
+                    if(dataFinal.isSame(dataAux, 'month')) {
                         m = 'dez';
                         aux = false;
                     }
@@ -300,19 +310,78 @@ var app = new Vue({
             self.$http.get('/researcher/project/api/convenios', function(data){
                 self.$set('convenios', data);
             });
+        },
+
+        remAnexo: function(ev,index) {
+            ev.preventDefault();
+            var self = this, anexo = this.projeto.anexos[index];
+            self.$http.delete('/researcher/project/api/anexos/'+anexo.idAnexo, function(data) {
+                this.projeto.anexos.$remove(index);
+            });
+        },
+
+        alerta: function(error, msg) {
+            var self = this;
+            self.response.$set('error', error);
+            self.response.$set('msg', msg);
+            self.response.$set('show', true);
+            if(!self.response.error)
+                setTimeout(function(){ self.response.$set('show', false);}, 5000);
         }
     },
 
     ready: function() {
-        var self = this;
+        var self = this, url;
+        /* Abrindo o loading */
         jQuery('#loading').modal('toggle');
-        self.$http.get('/researcher/project/api/dados', function(data){
-            self.$set('projeto', data)
+
+        /* Verificando se eh novo projeto ou edicao de projeto */
+        var param = window.location.pathname.split( '/' )[3];
+        if(param == 'create') {
+            url = '/researcher/project/api/dados';
+        } else {
+            url = '/researcher/project/api/dados/'+param;
+        }
+
+        /* buscando dados de grupos de pesquisa do pesquiasdor, covenios e financiadores cadastrados */
+        self.getGruposPesquisa();
+        self.getConvenios();
+        self.getFinanciadores();
+
+        /* Buscando a URL */
+        self.$http.get(url, function(data){
+            /* Adicionando os dados retornados */
+            self.$set('projeto', data);
+
+            /* Preparando o formulario de cronograma */
             self.createFormCronograma(null, self.projeto.projetoDatas.dataInicio, self.projeto.projetoDatas.duracao);
-            self.getGruposPesquisa();
-            self.getConvenios();
-            self.getFinanciadores();
+
+            /* Fechando o loading */
             jQuery('#loading').modal('toggle');
+
+            /*Upload Anexos Projeto*/
+            var fileUpload = jQuery('#fileupload');
+            fileUpload.fileupload({
+                url: '/researcher/project/api/anexos/upload',
+                dataType: 'json',
+                formData: {
+                    _token: jQuery('meta[name=csrf-token]').attr('content'),
+                    userId: fileUpload.data('userId'),
+                    projetoId: self.projeto.idProjeto
+                },
+                done: function (e, data) {
+                    self.projeto.anexos.push(data.result);
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    jQuery('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                }
+            });
+            /* Fim do upload de anexos */
+
         });
     },
 
@@ -322,12 +391,16 @@ var app = new Vue({
         jQuery(".telefone").mask("(00) 0000-0000");
         jQuery(".cpf").mask("000.000.000-00");
 
-        jQuery(window).on('hashchange', function(){
+        jQuery(window).on('hashchange', function() {
             self.$set('form', window.location.hash);
             window.scrollTo(0,0);
         });
 
-        if(window.location.hash === '') {
+        if(self.projeto.idProjeto == null){
+            self.$set('form', '#div2');
+            window.location.hash = '#div2';
+        }
+        else if(window.location.hash === '') {
             self.$set('form', '#div1');
             window.location.hash = '#div1';
         }

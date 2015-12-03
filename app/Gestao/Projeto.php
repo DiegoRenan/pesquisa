@@ -76,4 +76,9 @@ class Projeto extends Model {
     {
         return $this->hasMany('App\Gestao\Cronograma');
     }
+
+    public function anexos()
+    {
+        return $this->hasMany('App\Gestao\Anexos');
+    }
 }

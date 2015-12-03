@@ -5,6 +5,7 @@
     "laravel-elixir": "*"
   },
   "dependencies": {
+    "blueimp-file-upload": "^9.11.2",
     "font-awesome": "~4.4.0",
     "moment": "^2.10.6",
     "please-wait": "0.0.5",

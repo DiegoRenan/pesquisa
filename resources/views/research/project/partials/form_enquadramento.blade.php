@@ -26,7 +26,7 @@
         </div>
     </div>
 </div>
-<!-- Novo Grupo Pesquisa -->
+<!-- Fim Novo Grupo Pesquisa -->
 
 <!-- Novo Convenio -->
 <div class="modal fade" id="newConvenio" role="dialog">
@@ -56,7 +56,7 @@
         </div>
     </div>
 </div>
-<!-- Novo Convenio -->
+<!-- Fim Novo Convenio -->
 
 <!-- Novo Financiador -->
 <div class="modal fade" id="newFinanciador" role="dialog">
@@ -86,7 +86,7 @@
         </div>
     </div>
 </div>
-<!-- Novo Financiador -->
+<!-- Fim Novo Financiador -->
 
 <div class="form-group">
     {!! Form::label('titulo', 'Título Projeto') !!}
@@ -117,7 +117,7 @@
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <buttom class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newConvenio"><i class="glyphicon glyphicon-plus"></i> Convênio</buttom>
+                    <buttom class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newConvenio"><i class="glyphicon glyphicon-plus"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Convênio</buttom>
                 </div>
             </div>
         </div>
@@ -135,7 +135,7 @@
                 </div>
             </div>
         </div>
-    </div>
+                                                                                                                                                                                                                                                                                                                        </div>
 </div>
 
 <div class="form-group">
@@ -205,6 +205,6 @@
     </div>
 
     <div class="col-sm-2 text-right">
-        <a class="btn btn-default btn-sm" href="#div3">Avançar <i class="glyphicon glyphicon-chevron-right"></i></a>
+        <a v-show="projeto.idProjeto" class="btn btn-default btn-sm" href="#div3">Avançar <i class="glyphicon glyphicon-chevron-right"></i></a>
     </div>
 </div>

@@ -5,7 +5,7 @@
                 <label for="nomeAtividade">Atividade</label>
                 <input name="nomeAtividade" class="form-control" autofocus required v-el="nomeAtividade"/>
             </div>
-            <table id="meses" v-el="meses" class="table table-responsive table-bordered"></table>
+            <table id="meses" v-el="meses" class="table table-responsive table-bordered"><!-- JS divMeses --></table>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Adicionar</button>
                 <button type="reset" class="btn btn-danger" v-on="click:doClean"><i class="glyphicon glyphicon-remove"></i> Limpar</button>

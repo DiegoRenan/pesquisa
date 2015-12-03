@@ -14,7 +14,7 @@ class CreateAnexos extends Migration {
 	{
 		Schema::create('PROJ_anexos', function(Blueprint $table)
 		{
-			$table->increments('idAnexos');
+			$table->increments('idAnexo');
 			$table->string('nome', 250);
 			$table->text('arquivo');
 			$table->unsignedInteger('projeto_id');
