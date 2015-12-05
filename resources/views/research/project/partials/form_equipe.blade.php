@@ -20,8 +20,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-repeat="membro:projeto.membros">
-                        <td>@{{ membro.nome }}</td>
+                    <tr  class="text-center" v-repeat="membro:projeto.membros">
+                        <td>@{{ membro.nome_membro }}</td>
                         <td>@{{ membro.cpf }}</td>
                         <td>@{{ membro.titulacao }}</td>
                         <td>@{{ membro.instituicao }}</td>
@@ -69,7 +69,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="nome">Nome</label>
-                        <input type="text" name="nome" required="required" class="form-control" v-el="membroNome" v-model="membro.data.nome"/>
+                        <input type="text" name="nome" required="required" class="form-control" v-el="membroNome" v-model="membro.data.nome_membro"/>
                     </div>
                 </div>
                 <div class="col-sm-3">

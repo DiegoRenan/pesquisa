@@ -12,6 +12,8 @@ class PalavrasChave extends Model {
 
     protected $fillable = ['palavra'];
 
+    protected $hidden = ['projeto_id'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

@@ -158,6 +158,8 @@ Route::group(['prefix' => 'researcher', 'namespace' => 'Research'], function()
             Route::post('/api/anexos/upload', ['as' => 'project.anexosUpload', 'uses' => 'ProjectController@anexosUpload']);
             Route::delete('/api/anexos/{id}', ['as' => 'project.anexosDelete', 'uses' => 'ProjectController@anexosDelete']);
 
+            Route::delete('/api/palavra/{id}', ['as' => 'project.palavraChaveDelete', 'uses' => 'ProjectController@palavraChaveDelete']);
+
             Route::post('/api/membro/search', ['as' => 'member.search', 'uses' => 'MemberController@show']);
             Route::post('/api/membro/save', ['as' => 'member.store', 'uses' => 'MemberController@store']);
 

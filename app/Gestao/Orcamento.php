@@ -21,6 +21,8 @@ class Orcamento extends Model {
         'updated_at',
     ];
 
+    protected $hidden = ['projeto_id'];
+
     public $timestamps = false;
 
     public function projeto()

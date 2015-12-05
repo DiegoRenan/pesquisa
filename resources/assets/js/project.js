@@ -30,11 +30,13 @@ var app = new Vue({
         membro: {
             data: {
                 idMembro: '',
-                nome: '',
+                nome_membro: '',
                 cpf: '',
-                titulacao_id: '',
                 instituicao: '',
+                titulacao_id: '',
+                titulacao: '',
                 categoria_id: '',
+                categoria: '',
                 cargaHoraria: ''
             },
             exibir: false
@@ -59,6 +61,10 @@ var app = new Vue({
             nome: '',
             error: false
         },
+        palavraChave: {
+            "idPalavra": null,
+            "palavra": ''
+        },
         response: {'show': false,"error": false, "msg":[]}
     },
 
@@ -71,6 +77,7 @@ var app = new Vue({
 
             self.$http.post('/researcher/project/api/save', self.projeto, function(data){
                 self.alerta(false, {'msg': ['Projeto salvo com sucesso!']});
+                self.$set('projeto', data);
                 window.location.pathname = '/researcher/project/'+data.idProjeto+'/edit';
                 jQuery('#loading').modal('toggle');
 
@@ -173,7 +180,7 @@ var app = new Vue({
                 self.$http.post('/researcher/project/api/membro/search', {'cpf': cpf.value}, function(data){
                     self.$set('membro', data);
                     cpf.value = '';
-                    if(data.data.nome != '') {
+                    if(data.data.nome_membro != '') {
                         jQuery(self.$$.membroNome).prop('readonly', true);
                         jQuery(self.$$.membroInstituicao).prop('readonly', true);
                         jQuery(self.$$.membroTitulo).prop('disabled', true);
@@ -195,19 +202,13 @@ var app = new Vue({
             ev.preventDefault();
             var self = this;
             if(self.membro.data.idMembro == '') {
-                var member = {
-                    nome_membro: self.membro.data.nome,
-                    cpf: self.membro.data.cpf,
-                    instituicao: self.membro.data.instituicao,
-                    titulacao_id: self.membro.data.titulacao_id,
-                    categoria_id: self.membro.data.categoria_id
-                }
-                self.$http.post('/researcher/project/api/membro/save', member, function(data){
-                    self.membro.data.idMembro = data.data.idMembro;
-                    //console.log(data.data.idMembro);
+                self.$http.post('/researcher/project/api/membro/save', self.membro.data, function(response){
+                    self.membro.$set('data', response.data);
+                    self.projeto.membros.push(jQuery.extend({}, self.membro.data));
                 });
             }
-            self.projeto.membros.push(jQuery.extend({}, self.membro.data));
+            else
+                self.projeto.membros.push(jQuery.extend({}, self.membro.data));
             self.clearMembro(ev);
         },
 
@@ -320,6 +321,29 @@ var app = new Vue({
             });
         },
 
+        addPalavra: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            self.projeto.palavrasChave.push(jQuery.extend({}, self.palavraChave));
+            self.palavraChave.palavra = '';
+        },
+
+        remPalavra: function(ev, index) {
+            ev.preventDefault();
+            var self = this, palavra = this.projeto.palavrasChave[index];
+            jQuery('#close-palavra-'+index).html('<i class="fa fa-refresh fa-spin"></i>');
+            if(palavra.idPalavra == null) {
+                this.projeto.palavrasChave.$remove(index);
+            }
+            else {
+                self.$http.delete('/researcher/project/api/palavra/'+palavra.idPalavra, function(data) {
+                    self.projeto.palavrasChave.$remove(index);
+                }).error(function() {
+                    jQuery('#close-palavra-'+index).html('&times;');
+                });
+            }
+        },
+
         alerta: function(error, msg) {
             var self = this;
             self.response.$set('error', error);
@@ -333,7 +357,7 @@ var app = new Vue({
     ready: function() {
         var self = this, url;
         /* Abrindo o loading */
-        jQuery('#loading').modal('toggle');
+       // jQuery('#loading').modal('toggle');
 
         /* Verificando se eh novo projeto ou edicao de projeto */
         var param = window.location.pathname.split( '/' )[3];
@@ -357,7 +381,7 @@ var app = new Vue({
             self.createFormCronograma(null, self.projeto.projetoDatas.dataInicio, self.projeto.projetoDatas.duracao);
 
             /* Fechando o loading */
-            jQuery('#loading').modal('toggle');
+            //jQuery('#loading').modal('toggle');
 
             /*Upload Anexos Projeto*/
             var fileUpload = jQuery('#fileupload');

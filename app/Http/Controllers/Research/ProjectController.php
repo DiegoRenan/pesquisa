@@ -65,9 +65,80 @@ class ProjectController extends Controller {
         return view('research.project.create', compact('titles', 'categories', 'area', 'subArea', 'duracao'));
     }
 
+    protected function montaJson($id)
+    {
+        $projeto = Projeto::findOrFail($id);
+        $membros = [];
+        foreach($projeto->membros as $mb) {
+            $membros[] = [
+                'idMembro' => $mb->idMembro,
+                'nome_membro' => $mb->nome_membro,
+                'cpf' => $mb->cpf,
+                'instituicao' => $mb->instituicao,
+                'titulacao' => $mb->titulacao->name,
+                'categoria' => $mb->categoria->name,
+                'cargaHoraria' => $mb->pivot->cargaHoraria
+            ];
+        }
+
+        $json = [
+            'idProjeto' => $projeto->idProjeto,
+            'dadosPessoais' => [
+                'nome' => "Vinicius Fernandes Brito",
+                'matricula' => "200811722003",
+                'cpf' => "022.181.461-26",
+                'rg' => "1960244-8 SSP MT",
+                'dataNasc' => "19/04/1989",
+                'endereco' => [
+                    'cep' => "78600000",
+                    'rua' => "Rua 27",
+                    'numero' => "74",
+                    'complemento' => "Prox Escadaria",
+                    'bairro' => "Santo Antonio",
+                    'cidade' => "Barra do Garças",
+                    'uf' => "MT"
+
+                ],
+                'fone' => "6634014730",
+                'celular' => "6699317500",
+                'fax' => "6634014730",
+                'email' => "vinicius.fernandes.brito@gmail.complemento",
+                'categoria' => "ALUNO",
+                'titulacao' => "GRADUADO"
+            ],
+            'localTrabalho' => [
+                'unidade' => "Campus Universitário do Araguaia",
+                'fone' => "6634014730",
+                'regime' => "ALUNO"
+            ],
+
+            'projeto' => [
+                'titulo' => $projeto->titulo,
+                'descricao' => $projeto->descricao,
+                'caracterizacao' => $projeto->caracterizacao,
+                'objetivos' => $projeto->objetivos,
+                'metodologia' => $projeto->metodologia,
+                'referencias' => $projeto->referencias,
+                'convenio_id' => $projeto->convenio_id,
+                'financiador_id' => $projeto->financiador_id,
+                'area_id' => 1, /*PEGAR ID AREA*/
+                'subAreaConhecimento_id' => $projeto->subAreaConhecimento_id,
+                'grupoPesquisa_id' => $projeto->grupoPesquisa_id,
+                'pesquisador_id' => $projeto->pesquisador_id
+            ],
+            'projetoDatas' => $projeto->projetoDatas->first(),
+            'palavrasChave' => $projeto->palavrasChave,
+            'membros' => $membros,
+            'orcamento' => $projeto->orcamento,
+            'cronograma' => $projeto->cronograma,
+            'anexos' => $projeto->anexos
+        ];
+
+        return $json;
+    }
+
     public function getDados($id=null)
     {
-    	//sleep(5);
         if(!$id) {
             $json = [
                 'idProjeto' => null,
@@ -118,11 +189,7 @@ class ProjectController extends Controller {
                     'dataInicio' => Carbon::now()->format('Y-m-d'),
                     'duracao' => '24',
                 ],
-                'palavrasChave' => [
-                    'palavra1' => '',
-                    'palavra2' => '',
-                    'palavra3' => ''
-                ],
+                'palavrasChave' => [],
                 'membros' => [],
                 'orcamento' => [
                     'materialConsumo' => '',
@@ -137,79 +204,7 @@ class ProjectController extends Controller {
             ];
         }
         else {
-            $projeto = Projeto::findOrFail($id);
-            $palavrasChave = $projeto->palavrasChave()->get()->toArray();
-            $projetoDatas = $projeto->projetoDatas()->get()->toArray();
-            $orcamento = $projeto->orcamento()->get()->first();
-            $anexos = $projeto->anexos()->get()->toArray();
-
-
-            $json = [
-                'idProjeto' => $projeto->idProjeto,
-                'dadosPessoais' => [
-                    'nome' => "Vinicius Fernandes Brito",
-                    'matricula' => "200811722003",
-                    'cpf' => "022.181.461-26",
-                    'rg' => "1960244-8 SSP MT",
-                    'dataNasc' => "19/04/1989",
-                    'endereco' => [
-                        'cep' => "78600000",
-                        'rua' => "Rua 27",
-                        'numero' => "74",
-                        'complemento' => "Prox Escadaria",
-                        'bairro' => "Santo Antonio",
-                        'cidade' => "Barra do Garças",
-                        'uf' => "MT"
-
-                    ],
-                    'fone' => "6634014730",
-                    'celular' => "6699317500",
-                    'fax' => "6634014730",
-                    'email' => "vinicius.fernandes.brito@gmail.complemento",
-                    'categoria' => "ALUNO",
-                    'titulacao' => "GRADUADO"
-                ],
-                'localTrabalho' => [
-                    'unidade' => "Campus Universitário do Araguaia",
-                    'fone' => "6634014730",
-                    'regime' => "ALUNO"
-                ],
-
-                'projeto' => [
-                    'titulo' => $projeto->titulo,
-                    'descricao' => $projeto->descricao,
-                    'caracterizacao' => $projeto->caracterizacao,
-                    'objetivos' => $projeto->objetivos,
-                    'metodologia' => $projeto->metodologia,
-                    'referencias' => $projeto->referencias,
-                    'convenio_id' => $projeto->convenio_id,
-                    'financiador_id' => $projeto->financiador_id,
-                    'area_id' => 1, /*PEGAR ID AREA*/
-                    'subAreaConhecimento_id' => $projeto->subAreaConhecimento_id,
-                    'grupoPesquisa_id' => $projeto->grupoPesquisa_id,
-                    'pesquisador_id' => 1,
-                ],
-                'projetoDatas' => [
-                    'dataInicio' => $projetoDatas[0]['dataInicio'],
-                    'duracao' => $projetoDatas[0]['duracao']
-                ],
-                'palavrasChave' => [
-                    'palavra1' => $palavrasChave[0]['palavra'],
-                    'palavra2' => $palavrasChave[1]['palavra'],
-                    'palavra3' => $palavrasChave[2]['palavra']
-                ],
-                'membros' => [],
-                'orcamento' => [
-                    'materialConsumo' => $orcamento->materialConsumo,
-                    'servicosPessoaFisica' => $orcamento->servicosPessoaFisica,
-                    'servicosPessoaJuridica' => $orcamento->servicosPessoaJuridica,
-                    'obrasInstalacoes' => $orcamento->obrasInstalacoes,
-                    'equipamentoMaterial' => $orcamento->equipamentoMaterial,
-                    'total' => ''
-                ],
-                'cronograma' => [],
-                'anexos' => $anexos
-            ];
+            $json = $this->montaJson($id);
         }
 
         return response()->json($json);
@@ -217,8 +212,6 @@ class ProjectController extends Controller {
 
     public function saveDados(Request $request)
     {
-        $json = $request->all();
-
         $idProjeto = $request['idProjeto'];
         /*
          * $dadosPessoais = $request['dadosPessoais'];
@@ -230,7 +223,7 @@ class ProjectController extends Controller {
         $membros = $request['membros'];
         $orcamento = $request['orcamento'];
         $cronograma = $request['cronograma'];
-        $anexos = $request['anexos'];
+        //$anexos = $request['anexos'];
 
         /* Validação dos dados do formulario de enquadramento */
         $this->validate($request, [
@@ -243,9 +236,6 @@ class ProjectController extends Controller {
             'projeto.grupoPesquisa_id' => 'required',
             'projetoDatas.dataInicio' => 'required',
             'projetoDatas.duracao' => 'required',
-            'palavrasChave.palavra1' => 'required',
-            'palavrasChave.palavra2' => 'required',
-            'palavrasChave.palavra3' => 'required'
         ]);
 
         /*Se o json possuir o idProjeto: então projeto já existe, logo é feito atualização dos dados
@@ -254,6 +244,30 @@ class ProjectController extends Controller {
         if($idProjeto) {
             $proj = Projeto::findOrFail($idProjeto);
             $proj->update($projeto);
+
+            /* Salvando as Dadas */
+
+            /* Salvando  palavras chave */
+            foreach($palavrasChave as $palavra) {
+                if($palavra['idPalavra'] == null) {
+                    $p = new PalavrasChave(['palavra' => $palavra['palavra']]);
+                    $proj->palavrasChave()->save($p);
+                }
+            }
+
+            /* Salvando Membros */
+            if(count($membros) > 0) {
+                $members = [];
+                foreach($membros as $mb) {
+                    $members[$mb['idMembro']] = array('cargaHoraria' => $mb['cargaHoraria']);
+                }
+                $proj->membros()->sync($members);
+            }
+
+            /* Salvando Orcamento */
+            $proj->orcamento()->update($orcamento);
+
+            /* Salvando Cronograma */
         }
         else {
             /* Criando Projeto */
@@ -266,8 +280,10 @@ class ProjectController extends Controller {
 
             /* Salvando  palavras chave */
             foreach($palavrasChave as $palavra) {
-                $p = new PalavrasChave(['palavra' => $palavra]);
-                $proj->palavrasChave()->save($p);
+                if($palavra['idPalavra'] == null) {
+                    $p = new PalavrasChave(['palavra' => $palavra]);
+                    $proj->palavrasChave()->save($p);
+                }
             }
 
             /* Salvando Membros */
@@ -294,8 +310,8 @@ class ProjectController extends Controller {
                 }
             }
         }
-        $json['idProjeto'] = $proj->idProjeto;
-        return response()->json($json);
+
+        return response()->json($this->montaJson($proj->idProjeto));
     }
 
     public function getSubAreas()
@@ -342,5 +358,10 @@ class ProjectController extends Controller {
         unlink($anexo->arquivo);
         $anexo->delete();
         return;
+    }
+
+    public function palavraChaveDelete($id)
+    {
+        return PalavrasChave::destroy($id);
     }
 }

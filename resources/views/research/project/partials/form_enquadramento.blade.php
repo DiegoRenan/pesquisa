@@ -172,23 +172,30 @@
             {!! Form::label('descricao', 'Descrição Sucinta do Projeto') !!} <small>(Máximo de 50 palavras)</small>
             {!! Form::textarea('descricao', null, ['class' => 'form-control', 'v-model' => 'projeto.projeto.descricao']) !!}
         </div>
-        <div class="col-sm-4">
-            <div class="row">
-                <div class="form-group">
-                    {!! Form::label('palavra1', 'Palavra Chave') !!}
-                    {!! Form::text('palavra1', null, ['class' => 'form-control', 'v-model' => 'projeto.palavrasChave.palavra1']) !!}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="palavra">Palavras Chave</label>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <input type="text" name="palavra" class="form-control" v-model="palavraChave.palavra"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <buttom class="btn btn-primary btn-sm" v-on="click:addPalavra"><i class="glyphicon glyphicon-plus"></i> Palavra Chave</buttom>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group">
-                    {!! Form::label('palavra2', 'Palavra Chave') !!}
-                    {!! Form::text('palavra2', null, ['class' => 'form-control', 'v-model' => 'projeto.palavrasChave.palavra2']) !!}
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    {!! Form::label('palavra3', 'Palavra Chave') !!}
-                    {!! Form::text('palavra3', null, ['class' => 'form-control', 'v-model' => 'projeto.palavrasChave.palavra3']) !!}
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-repeat="projeto.palavrasChave">
+                                @{{ palavra }}
+                                <button id="close-palavra-@{{ $index }}" type="button" class="close" v-on="click:remPalavra($event, $index)" >&times;</button>
+                                {{--<button type="button" class="close" v-on="click:remPalavra($event, $index)" >&times;</button>--}}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

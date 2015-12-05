@@ -25,4 +25,14 @@ class Membro extends Model {
     {
         return $this->belongsToMany('App\Gestao\Projeto', 'PROJ_projeto_PROJ_membro');
     }
+
+    public function titulacao()
+    {
+        return $this->belongsTo('App\Stuff\Titulacao');
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo('App\Stuff\CategoriaPesquisador');
+    }
 }

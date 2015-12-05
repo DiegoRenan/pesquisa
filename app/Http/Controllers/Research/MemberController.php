@@ -42,18 +42,21 @@ class MemberController extends Controller {
             'categoria_id' => 'exists:categorias,id'
         ]);
 
-        $membro = Membro::create($request->all());
+        $membro = new Membro($request->all());
+        $membro->save();
 
         return
             [
                 'data'  => [
                     'idMembro' => $membro->idMembro,
-                    'nome' => $membro->nome_membro,
+                    'nome_membro' => $membro->nome_membro,
                     'cpf' => $membro->cpf,
                     'instituicao' => $membro->instituicao,
                     'titulacao_id' => $membro->titulacao_id,
+                    'titulacao' => $membro->titulacao->name,
                     'categoria_id' => $membro->categoria_id,
-                    'cargaHoraria' => ''
+                    'categoria' => $membro->categoria->name,
+                    'cargaHoraria' => $request['cargaHoraria']
                 ],
                 'exibir' => false
             ];
@@ -71,11 +74,13 @@ class MemberController extends Controller {
                 [
                     'data'  => [
                         'idMembro' => $membro->idMembro,
-                        'nome' => $membro->nome_membro,
+                        'nome_membro' => $membro->nome_membro,
                         'cpf' => $membro->cpf,
                         'instituicao' => $membro->instituicao,
                         'titulacao_id' => $membro->titulacao_id,
+                        'titulacao' => $membro->titulacao->name,
                         'categoria_id' => $membro->categoria_id,
+                        'categoria' => $membro->categoria->name,
                         'cargaHoraria' => ''
                     ],
                     'exibir' => true
@@ -86,10 +91,12 @@ class MemberController extends Controller {
                 [
                     'data'  => [
                         'idMembro' => '',
-                        'nome' => '',
+                        'nome_membro' => '',
                         'cpf' => $request->cpf,
                         'instituicao' => '',
+                        'titulacao_id' => '',
                         'titulacao' => '',
+                        'categoria_id' => '',
                         'categoria' => '',
                         'cargaHoraria' => ''
                     ],

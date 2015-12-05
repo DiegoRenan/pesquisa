@@ -12,6 +12,8 @@ class ProjetoDatas extends Model {
 
     protected $fillable = ['dataInicio', 'duracao'];
 
+    protected $hidden = ['projeto_id'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
